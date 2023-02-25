@@ -2,3 +2,113 @@
     background-color: #0E0E0E;
 }
 
+.cottage-paper {
+    width: 80px;
+    height: 80px;
+    margin-top: 100px;
+    background-color: #1E1E1E;
+    cursor: pointer;
+    box-shadow: 10px;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+.cottage-paper:hover {
+    border-radius: 15%;
+    background-color: #bd284d;
+}
+.cottage-paper .cottage {
+    color: #bd284d;
+    transition: all 0.3s;
+}
+.cottage-paper:hover .cottage{
+    color: white;
+}
+
+.whatshot-paper {
+    width: 80px;
+    height: 80px;
+    margin-top: 30px;
+    cursor: pointer;
+    box-shadow: 10px;
+    border-radius: 50%;
+    transition: all 0.3s;
+    background-color: #1E1E1E;
+    transition: all 0.3s;
+}
+.whatshot-paper:hover {
+    border-radius: 15%;
+    background-color: orange;
+}
+.whatshot-paper .whatshot {
+    color: orange;
+}
+.whatshot-paper:hover .whatshot {
+    color: white;
+}
+
+.update-paper {
+    width: 80px;
+    height: 80px;
+    margin-top: 30px;
+    cursor: pointer;
+    box-shadow: 10px;
+    border-radius: 50%;
+    transition: all 0.3s;
+    background-color: #1E1E1E;
+    transition: all 0.3s;
+}
+.update-paper:hover {
+    border-radius: 15%;
+    background-color: #2ec4b6;
+}
+.update-paper .update {
+    color: #2ec4b6;
+}
+.update-paper:hover .update {
+    color: white;
+}
+
+
+.calendar-paper {
+    width: 80px;
+    height: 80px;
+    margin-top: 30px;
+    cursor: pointer;
+    box-shadow: 10px;
+    border-radius: 50%;
+    transition: all 0.3s;
+    background-color: #1E1E1E;
+    transition: all 0.3s;
+}
+.calendar-paper:hover {
+    border-radius: 15%;
+    background-color: #BEEE62;
+}
+.calendar-paper .calendar {
+    color: #BEEE62;
+}
+.calendar-paper:hover .calendar {
+    color: white;
+}
+
+.interests-paper {
+    width: 80px;
+    height: 80px;
+    margin-top: 30px;
+    cursor: pointer;
+    box-shadow: 10px;
+    border-radius: 50%;
+    transition: all 0.3s;
+    background-color: #1E1E1E;
+    transition: all 0.3s;
+}
+.interests-paper:hover {
+    border-radius: 15%;
+    background-color: #9649cb;
+}
+.interests-paper .interests {
+    color: #9649cb;
+}
+.interests-paper:hover .interests {
+    color: white;
+}
