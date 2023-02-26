@@ -2,11 +2,27 @@ import { Typography, CssBaseline, Box, Button, IconButton, useMediaQuery, AppBar
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Menu,  KeyboardDoubleArrowRight, Search, Whatshot, Update, CalendarMonth, Interests, Cottage } from '@mui/icons-material';
 import {  FaDiscord } from "react-icons/fa";
-import { useState, onMouseOver, onMouseEnter, onMouseLeave } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import logo from '../assets/aniime.png';
 import './css/Home.css';
 import { styled } from '@mui/system';
+import axios from "axios";
+
+
+//query for searching anime 
+const url ="https://api.consumet.org/anime/9anime/info/spy-x-family.6ll19";
+const data = async () => {
+  try {
+      const { data } = await axios.get(url, { params: { id: "spy-x-family.6ll19" }});
+      return data;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+
+console.log(data())
+
 
 const theme = createTheme({
   palette: {
@@ -45,15 +61,6 @@ function Home() {
   const [isEnter, setIsEnter] = useState(false);
   const [Hover, setHover] = useState(false);
 
-
-  const handleMouseEnter = () => {
-    setHover(true)
-  };
-  const handleMouseLeave = () => {
-    setHover(false)
-  }
-
-
   return (
     <>
       <CssBaseline/>
@@ -64,7 +71,7 @@ function Home() {
       <Drawer anchor='left' open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} elevation={0}>
         <Box p={2} sx={{display: 'flex', flexDirection: 'column'}}>
           <Tooltip title="Home" TransitionComponent={Zoom} placement='right'>
-            <Box className='cottage-paper' onMouseEnter={handleMouseEnter}  >
+            <Box className='cottage-paper'  >
               <StyledButton sx={{ml: 1.2, mt: 1.2}} >
                 <Cottage className="cottage" style={{ fontSize: 45 }}  />
               </StyledButton>

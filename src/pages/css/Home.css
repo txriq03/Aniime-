@@ -14,10 +14,10 @@
 }
 .cottage-paper:hover {
     border-radius: 15%;
-    background-color: #bd284d;
+    background-color: #d81e5b;
 }
 .cottage-paper .cottage {
-    color: #bd284d;
+    color: #d81e5b;
     transition: all 0.3s;
 }
 .cottage-paper:hover .cottage{
@@ -82,10 +82,10 @@
 }
 .calendar-paper:hover {
     border-radius: 15%;
-    background-color: #BEEE62;
+    background-color: #0cf574;
 }
 .calendar-paper .calendar {
-    color: #BEEE62;
+    color: #0cf574;
 }
 .calendar-paper:hover .calendar {
     color: white;
