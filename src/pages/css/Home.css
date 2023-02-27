@@ -2,7 +2,7 @@
     background-color: #0E0E0E;
 }
 
-.cottage-paper {
+.cottage {
     width: 80px;
     height: 80px;
     margin-top: 100px;
@@ -12,19 +12,29 @@
     border-radius: 50%;
     transition: all 0.3s;
 }
-.cottage-paper:hover {
+.cottage:hover {
     border-radius: 15%;
     background-color: #d81e5b;
 }
-.cottage-paper .cottage {
+.cottage .cottage-icon {
     color: #d81e5b;
     transition: all 0.3s;
 }
-.cottage-paper:hover .cottage{
+.cottage:hover .cottage-icon{
     color: white;
 }
+.cottage-active {
+    width: 80px;
+    height: 80px;
+    margin-top: 100px;
+    background-color: #d81e5b;
+    cursor: pointer;
+    box-shadow: 10px;
+    border-radius: 15%;
+    transition: all 0.3s;
+}
 
-.whatshot-paper {
+.whatshot {
     width: 80px;
     height: 80px;
     margin-top: 30px;
@@ -35,18 +45,28 @@
     background-color: #1E1E1E;
     transition: all 0.3s;
 }
-.whatshot-paper:hover {
+.whatshot:hover {
     border-radius: 15%;
     background-color: orange;
 }
-.whatshot-paper .whatshot {
+.whatshot .whatshot-icon {
     color: orange;
 }
-.whatshot-paper:hover .whatshot {
+.whatshot:hover .whatshot-icon {
     color: white;
 }
+.whatshot-active {
+    width: 80px;
+    height: 80px;
+    margin-top: 30px;
+    background-color: orange;
+    cursor: pointer;
+    box-shadow: 10px;
+    border-radius: 15%;
+    transition: all 0.3s;
+}
 
-.update-paper {
+.update {
     width: 80px;
     height: 80px;
     margin-top: 30px;
@@ -57,19 +77,28 @@
     background-color: #1E1E1E;
     transition: all 0.3s;
 }
-.update-paper:hover {
+.update:hover {
     border-radius: 15%;
     background-color: #2ec4b6;
 }
-.update-paper .update {
+.update .update-icon {
     color: #2ec4b6;
 }
-.update-paper:hover .update {
+.update:hover .update-icon {
     color: white;
 }
+.update-active {
+    width: 80px;
+    height: 80px;
+    margin-top: 30px;
+    background-color: #2ec4b6;
+    cursor: pointer;
+    box-shadow: 10px;
+    border-radius: 15%;
+    transition: all 0.3s;
+}
 
-
-.calendar-paper {
+.calendar {
     width: 80px;
     height: 80px;
     margin-top: 30px;
@@ -80,18 +109,28 @@
     background-color: #1E1E1E;
     transition: all 0.3s;
 }
-.calendar-paper:hover {
+.calendar:hover {
     border-radius: 15%;
     background-color: #0cf574;
 }
-.calendar-paper .calendar {
+.calendar .calendar-icon {
     color: #0cf574;
 }
-.calendar-paper:hover .calendar {
+.calendar:hover .calendar-icon {
     color: white;
 }
+.calendar-active {
+    width: 80px;
+    height: 80px;
+    margin-top: 30px;
+    background-color: #0cf574;
+    cursor: pointer;
+    box-shadow: 10px;
+    border-radius: 15%;
+    transition: all 0.3s;
+}
 
-.interests-paper {
+.interests {
     width: 80px;
     height: 80px;
     margin-top: 30px;
@@ -102,13 +141,23 @@
     background-color: #1E1E1E;
     transition: all 0.3s;
 }
-.interests-paper:hover {
+.interests:hover {
     border-radius: 15%;
     background-color: #9649cb;
 }
-.interests-paper .interests {
+.interests .interests-icon {
     color: #9649cb;
 }
-.interests-paper:hover .interests {
+.interests:hover .interests-icon {
     color: white;
+}
+.interests-active {
+    width: 80px;
+    height: 80px;
+    margin-top: 30px;
+    background-color: #9649cb;
+    cursor: pointer;
+    box-shadow: 10px;
+    border-radius: 15%;
+    transition: all 0.3s;
 }
