@@ -14,16 +14,18 @@ import axios from "axios";
 //info url example => "https://api.consumet.org/meta/anilist/info/98659?provider=9anime"
 
 //query for searching anime 
-const url = "https://api.consumet.org/meta/anilist/info/21";
-const data = async () => {
-    try {
-        const { data } = await axios.get(url, { params: { provider: "gogoanime" } });
-        return data;
-    } catch (err) {
-        throw new Error(err.message);
-    }
-};
-console.log(data())
+
+
+// const url = "https://api.consumet.org/meta/anilist/info/21";
+// const data = async () => {
+//     try {
+//         const { data } = await axios.get(url, { params: { provider: "gogoanime" } });
+//         return data;
+//     } catch (err) {
+//         throw new Error(err.message);
+//     }
+// };
+// console.log(data())
 
 const theme = createTheme({
   palette: {
@@ -61,7 +63,20 @@ function Home() {
   let navigate = useNavigate()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const location = useLocation();
-  console.log(location.pathname)
+  const [ data, setData ] = useState("");
+
+
+  const url = "https://api.consumet.org/meta/anilist/info/21";
+  const getData = async () => {
+    await axios.get(url, { params: { provider: "gogoanime" }}).then(
+      (response) => {
+        console.log(response.data.image)
+        setData(response.data.cover)
+        console.log(data == response.data.cover) 
+      }
+    );
+  };
+  getData()
 
   return (
     <>
@@ -135,6 +150,7 @@ function Home() {
             <Button variant='contained' size='medium' endIcon={<KeyboardDoubleArrowRight/>} sx={{mr: 10}} >Sign in</Button>
           </Toolbar>
         </AppBar>
+        {data != '' ? <Box component='img' align='center' src={data} sx={{backgroundColor: '#0E0E0E', width: '100%'}}/> : ''}
       </ThemeProvider>
     </>
   )
