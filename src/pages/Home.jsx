@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet';
 import logo from '../assets/aniime.png';
 import './css/Home.css';
 import { styled } from '@mui/system';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import axios from "axios";
 
 //streaming link example => https://api.consumet.org/meta/anilist/watch/109893?provider=9anime
@@ -60,8 +60,8 @@ function Home() {
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px");
   let navigate = useNavigate()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isEnter, setIsEnter] = useState(false);
-  const [Hover, setHover] = useState(false);
+  const location = useLocation();
+  console.log(location.pathname)
 
   return (
     <>
@@ -73,35 +73,35 @@ function Home() {
       <Drawer anchor='left' open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} elevation={0}>
         <Box p={2} sx={{display: 'flex', flexDirection: 'column'}}>
           <Tooltip title="Home" TransitionComponent={Zoom} placement='right' arrow >
-            <Box className='cottage-active' onClick={() => navigate('/home')}>
+            <Box className={location.pathname == '/home' ? 'cottage-active' : 'cottage'} onClick={() => navigate('/home')}>
               <StyledIconButton sx={{ml: 1.2, mt: 1.2}} >
                 <Cottage className="cottage-icon" style={{ fontSize: 45 }}  />
               </StyledIconButton>
             </Box>
           </Tooltip>
           <Tooltip placement='right' TransitionComponent={Zoom} title='Trending' arrow  >
-            <Box className="whatshot" onClick={() => navigate('/home/trending')}>
+            <Box className={location.pathname == '/home/trending' ? 'whatshot-active' : 'whatshot'} onClick={() => navigate('/home/trending')}>
               <StyledIconButton sx={{ml: 1.2, mt: 1.2}} >
                 <Whatshot className="whatshot-icon" style={{ fontSize: 45 }} />
               </StyledIconButton>
             </Box>
           </Tooltip>
           <Tooltip placement='right' TransitionComponent={Zoom} title='Recently Updated' arrow >
-            <Box className="update" onClick={() => navigate('/home/updated')}>
+            <Box className={location.pathname == '/home/updated' ? 'update-active' : 'update'}onClick={() => navigate('/home/updated')}>
               <StyledIconButton sx={{ml: 1.2, mt: 1.2}}>
                 <Update className="update-icon" style={{ fontSize: 45 }} />
               </StyledIconButton>
             </Box>
           </Tooltip>
           <Tooltip placement='right' TransitionComponent={Zoom} title='Calendar' arrow>
-            <Box className="calendar" onClick={() => navigate('/home/calendar')}>
+            <Box className={location.pathname == '/home/calendar' ? 'calendar-active' : 'calendar'} onClick={() => navigate('/home/calendar')}>
               <StyledIconButton sx={{ml: 1.2, mt: 1.2}}>
                 <CalendarMonth className="calendar-icon" style={{ fontSize: 45 }} />
               </StyledIconButton>
             </Box>
           </Tooltip>
           <Tooltip placement='right' TransitionComponent={Zoom} title='Categories' arrow >
-            <Box className="interests" onClick={() => navigate('/home/categories')}>
+            <Box className={location.pathname == '/home/categories' ? 'interests-active' : 'interests'} onClick={() => navigate('/home/categories')}>
               <StyledIconButton sx={{ml: 1.2, mt: 1.2}}>
                 <Interests className="interests-icon" style={{ fontSize: 45 }} />
               </StyledIconButton>
@@ -127,8 +127,8 @@ function Home() {
                 flexGrow: 0
               }}
             />
-            <Typography sx={{flexGrow: 1}}/>
-            <OutlinedInput sx={{mr: '200px', width: '500px', bgcolor: '#141414'}} size='small' startAdornment={<IconButton sx={{ml: -0.5}}> <Search/> </IconButton>} placeholder='Search...' >Search...</OutlinedInput>
+            <Typography sx={{flexGrow: 1}}>by txriq03</Typography>
+            <OutlinedInput sx={{ mr: 10, width: '30%', bgcolor: '#141414', textAlign: 'center'}} size='small' startAdornment={<IconButton sx={{ml: -0.5}}> <Search/> </IconButton>} placeholder='Search...' >Search...</OutlinedInput>
             <IconButton sx={{mr: 1}} href='https://discord.com/invite/qTPfvMxzNH'>
               <FaDiscord size='1.2em' color='#5562EA' />
             </IconButton>
