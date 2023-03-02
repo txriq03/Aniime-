@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
 import React from 'react'
-import Home from './Home'
+import Home from './Navbar'
 import './css/Home.css'
 
 function Categories() {

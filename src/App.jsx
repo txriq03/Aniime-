@@ -13,10 +13,10 @@ function App() {
       <Route path="/" element={<Login/>}/>
       <Route path="/signup" element={<Signup/>}/>
       <Route path="/home" element={<Home/>}/>
-      <Route path="/home/trending" element={<Trending/>}/>
-      <Route path="/home/updated" element={<Updated/>}/>
-      <Route path="/home/categories" element={<Categories/>}/>
-      <Route path="/home/calendar" element={<Calendar/>}/>
+      <Route path="/trending" element={<Trending/>}/>
+      <Route path="/updated" element={<Updated/>}/>
+      <Route path="/categories" element={<Categories/>}/>
+      <Route path="/calendar" element={<Calendar/>}/>
 
     </Routes>
   )

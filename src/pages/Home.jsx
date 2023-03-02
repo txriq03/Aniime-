@@ -1,31 +1,28 @@
-import { Typography, CssBaseline, Box, Button, IconButton, useMediaQuery, AppBar, Toolbar, OutlinedInput, Drawer, Tooltip, Zoom } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Menu,  KeyboardDoubleArrowRight, Search, Whatshot, Update, CalendarMonth, Interests, Cottage } from '@mui/icons-material';
-import {  FaDiscord } from "react-icons/fa";
+import { Box } from '@mui/material';
 import { useState } from 'react';
-import { Helmet } from 'react-helmet';
-import logo from '../assets/aniime.png';
 import './css/Home.css';
-import { styled } from '@mui/system';
-import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import axios from "axios";
+import Navbar from './Navbar'
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ANIME } from '@consumet/extensions';
 
-//streaming link example => https://api.consumet.org/meta/anilist/watch/109893?provider=9anime
-//info url example => "https://api.consumet.org/meta/anilist/info/98659?provider=9anime"
-
-//query for searching anime 
-
-
-// const url = "https://api.consumet.org/meta/anilist/info/21";
-// const data = async () => {
-//     try {
-//         const { data } = await axios.get(url, { params: { provider: "gogoanime" } });
-//         return data;
-//     } catch (err) {
-//         throw new Error(err.message);
-//     }
-// };
-// console.log(data())
+//cors.haikei.xyz
+// (function() {
+//   var cors_api_host = 'cors.haikei.xyz';
+//   var cors_api_url = 'https://' + cors_api_host + '/';
+//   var slice = [].slice;
+//   var origin = window.location.protocol + '//' + window.location.host;
+//   var open = XMLHttpRequest.prototype.open;
+//   XMLHttpRequest.prototype.open = function() {
+//       var args = slice.call(arguments);
+//       var targetOrigin = /^https?:\/\/([^\/]+)/i.exec(args[1]);
+//       if (targetOrigin && targetOrigin[0].toLowerCase() !== origin &&
+//           targetOrigin[1] !== cors_api_host) {
+//           args[1] = cors_api_url + args[1];
+//       }
+//       return open.apply(this, args);
+//   };
+// })();
 
 const theme = createTheme({
   palette: {
@@ -51,107 +48,32 @@ const theme = createTheme({
   }
 });
 
-const StyledIconButton = styled(IconButton)`
-  &:hover {
-    background: none;
-  }
-`
-
+// const main = async () => {
+//   const zoro = new ANIME.Zoro();
+//   zoro.search("demon").then(data => {
+//     console.log(data)
+//   })
+// }
+// main()
 
 function Home() {
-  const isNonMobileScreens = useMediaQuery("(min-width: 1000px");
-  let navigate = useNavigate()
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const location = useLocation();
   const [ data, setData ] = useState("");
-
-
-  const url = "https://api.consumet.org/meta/anilist/info/21";
+  const url = "https://api.consumet.org/meta/anilist/info/116674";
   const getData = async () => {
-    await axios.get(url, { params: { provider: "gogoanime" }}).then(
+      await axios.get(url, { params: { provider: "gogoanime" }}).then(
       (response) => {
-        console.log(response.data.image)
         setData(response.data.cover)
-        console.log(data == response.data.cover) 
-      }
-    );
+      });
   };
   getData()
 
   return (
     <>
-      <CssBaseline/>
-      <Helmet>
-        <title>Home - Aniime</title>
-      </Helmet>
       <ThemeProvider theme={theme}>
-      <Drawer anchor='left' open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} elevation={0}>
-        <Box p={2} sx={{display: 'flex', flexDirection: 'column'}}>
-          <Tooltip title="Home" TransitionComponent={Zoom} placement='right' arrow >
-            <Box className={location.pathname == '/home' ? 'cottage-active' : 'cottage'} onClick={() => navigate('/home')}>
-              <StyledIconButton sx={{ml: 1.2, mt: 1.2}} >
-                <Cottage className="cottage-icon" style={{ fontSize: 45 }}  />
-              </StyledIconButton>
-            </Box>
-          </Tooltip>
-          <Tooltip placement='right' TransitionComponent={Zoom} title='Trending' arrow  >
-            <Box className={location.pathname == '/home/trending' ? 'whatshot-active' : 'whatshot'} onClick={() => navigate('/home/trending')}>
-              <StyledIconButton sx={{ml: 1.2, mt: 1.2}} >
-                <Whatshot className="whatshot-icon" style={{ fontSize: 45 }} />
-              </StyledIconButton>
-            </Box>
-          </Tooltip>
-          <Tooltip placement='right' TransitionComponent={Zoom} title='Recently Updated' arrow >
-            <Box className={location.pathname == '/home/updated' ? 'update-active' : 'update'}onClick={() => navigate('/home/updated')}>
-              <StyledIconButton sx={{ml: 1.2, mt: 1.2}}>
-                <Update className="update-icon" style={{ fontSize: 45 }} />
-              </StyledIconButton>
-            </Box>
-          </Tooltip>
-          <Tooltip placement='right' TransitionComponent={Zoom} title='Calendar' arrow>
-            <Box className={location.pathname == '/home/calendar' ? 'calendar-active' : 'calendar'} onClick={() => navigate('/home/calendar')}>
-              <StyledIconButton sx={{ml: 1.2, mt: 1.2}}>
-                <CalendarMonth className="calendar-icon" style={{ fontSize: 45 }} />
-              </StyledIconButton>
-            </Box>
-          </Tooltip>
-          <Tooltip placement='right' TransitionComponent={Zoom} title='Categories' arrow >
-            <Box className={location.pathname == '/home/categories' ? 'interests-active' : 'interests'} onClick={() => navigate('/home/categories')}>
-              <StyledIconButton sx={{ml: 1.2, mt: 1.2}}>
-                <Interests className="interests-icon" style={{ fontSize: 45 }} />
-              </StyledIconButton>
-            </Box>
-          </Tooltip>
-        </Box>
-      </Drawer>
-        <AppBar position="static" sx={{backgroundColor: 'black'}}>
-          <Toolbar>
-            <IconButton sx={{ml: 5}} onClick={() => setIsDrawerOpen(true)}>
-              <Menu fontSize='large' />
-            </IconButton>
-            <Box
-              component='img'
-              alt="Aniime"
-              onClick={() => navigate('/home')}
-              src={logo}
-              sx={{
-                cursor: 'pointer',
-                py: '12px',
-                px: '10px',
-                width: '170px',
-                flexGrow: 0
-              }}
-            />
-            <Typography sx={{flexGrow: 1}}>by txriq03</Typography>
-            <OutlinedInput sx={{ mr: 10, width: '30%', bgcolor: '#141414', textAlign: 'center'}} size='small' startAdornment={<IconButton sx={{ml: -0.5}}> <Search/> </IconButton>} placeholder='Search...' >Search...</OutlinedInput>
-            <IconButton sx={{mr: 1}} href='https://discord.com/invite/qTPfvMxzNH'>
-              <FaDiscord size='1.2em' color='#5562EA' />
-            </IconButton>
-            <Button variant='contained' size='medium' endIcon={<KeyboardDoubleArrowRight/>} sx={{mr: 10}} >Sign in</Button>
-          </Toolbar>
-        </AppBar>
-        {data != '' ? <Box component='img' align='center' src={data} sx={{backgroundColor: '#0E0E0E', width: '100%'}}/> : ''}
+        <Navbar/>
+        {data != '' ? <Box component='img' align='center' src={data} sx={{backgroundColor: '#0E0E0E', borderRadius: 2, my: 2, width: '100%'}}/> : ''}
       </ThemeProvider>
+
     </>
   )
 }
