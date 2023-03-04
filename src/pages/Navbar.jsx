@@ -10,7 +10,6 @@ import { styled } from '@mui/system';
 import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import axios from "axios";
 
-
 //streaming link example => https://api.consumet.org/meta/anilist/watch/109893?provider=9anime
 //info url example => "https://api.consumet.org/meta/anilist/info/98659?provider=9anime"
 
@@ -36,7 +35,7 @@ const theme = createTheme({
     }
   },
   typography: {
-    fontFamily: 'Source Sans Pro',
+    fontFamily: 'Youtube Sans',
   },
   components: {
     MuiInputLabel: {
@@ -65,14 +64,19 @@ function Navbar() {
 
   const [ query, setQuery ] = useState('')
   const data = async () => {
-    const url = `https://api.consumet.org/meta/anilist/${query}?page=1`;
-    try {
-        const { data } = await axios.get(url);
-        setSearchResults(data.results)
-        console.log(data)
-        return data;
-    } catch (err) {
-        throw new Error(err.message);
+    if (query != '') {
+      const url = `https://api.consumet.org/meta/anilist/${query}?page=1`;
+      try {
+          const { data } = await axios.get(url);
+          setSearchResults(data.results)
+          console.log(data)
+          return data;
+      } catch (err) {
+          throw new Error(err.message);
+      }
+
+    } else {
+      alert("Search field cannot be empty")
     }
   };
 
@@ -149,16 +153,17 @@ function Navbar() {
             <Button variant='contained' size='medium' endIcon={<KeyboardDoubleArrowRight/>} sx={{mr: 10}} >Sign in</Button>
           </Toolbar>
         </AppBar>
-        {searchResults != '' && <Typography variant='h3' align='center' sx={{m: 2}}>Results</Typography>}
+        {searchResults != '' && <Typography variant='h3' align='center' color="primary" sx={{m: 2}}>Results</Typography>}
         <Box align='center'>
           {searchResults.map(anime => (
-            <a href={anime.url} key={anime.id} target='_blank'>
-              <Box
-              component="img"
-              src={anime.image}
-              sx={{m: 1, borderRadius: 2, boxShadow: 5, height: '400px', maxWidth: '290px', objectFit: 'cover'}}
-              />
-            </a>
+              <a href={anime.image} key={anime.id} target='_blank'>
+                <Box
+                component="img"
+                src={anime.image}
+                sx={{m: 1, borderRadius: 2, boxShadow: 5, height: '460px', width: '290px', objectFit: 'cover'}}
+                />
+                {/* <Typography variant='h6' sx={{pb: 2, px: 2}} >{anime.title.romaji}</Typography> */}
+              </a>
           ))}
         </Box>
 

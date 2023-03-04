@@ -35,7 +35,7 @@ const theme = createTheme({
     }
   },
   typography: {
-    fontFamily: 'Source Sans Pro',
+    fontFamily: 'Youtube Sans',
   },
   components: {
     MuiInputLabel: {

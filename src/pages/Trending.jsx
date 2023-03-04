@@ -4,7 +4,11 @@ import Navbar from './Navbar'
 import './css/Home.css'
 import axios from "axios";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import 'vidstack/define/media-player.js';
+import 'vidstack/styles/defaults.css';
+import { MediaOutlet, MediaPlayer } from '@vidstack/react';
 
+const corsProxy = "https://cors.haikei.xyz/"
 const theme = createTheme({
   palette: {
     mode: 'dark',
@@ -16,7 +20,7 @@ const theme = createTheme({
     }
   },
   typography: {
-    fontFamily: 'Source Sans Pro',
+    fontFamily: 'Youtube Sans',
   },
   components: {
     MuiInputLabel: {
@@ -30,9 +34,12 @@ const theme = createTheme({
 });
 
 function Trending() {
-  // Using the example query "demon", and looking at the first page of results.
   const [ trending, setTrending ] = useState([])
+  const [ selected, setSelected ] = useState(false)
+  const [ episodeUrl, setEpisodeUrl ] = useState('')
+  
   const trendingUrl = "https://api.consumet.org/meta/anilist/trending";
+  
   const data = async () => {
     try {
       const { data } = await axios.get(trendingUrl, { params: {
@@ -51,35 +58,49 @@ function Trending() {
     data()
   }, [])
   
-  const getStream = async (id) => {
-    const streamUrl = `https://api.consumet.org/meta/anilist/watch/${id}?provider=9anime`
+  const getStream = async (episodeId) => {
+    const streamUrl = `https://api.consumet.org/meta/anilist/watch/${episodeId}`;
     try {
-      const { data } = await axios.get(streamUrl);
-      console.log(data)
+        const { data } = await axios.get(streamUrl);
+        console.log(data)
+        setEpisodeUrl(data.sources[3].url)
+        return data;
+    } catch (err) {
+        throw new Error(err.message);
+    }
+  }
+
+  const getInfo = async (id) => {
+    const infoUrl =  `https://api.consumet.org/meta/anilist/info/${id}`
+    try {
+      const { data } = await axios.get(infoUrl);
+      console.log(data.episodes[0].id)
+      getStream(data.episodes[0].id)
       return data;
   } catch (err) {
       throw new Error(err.message);
-  }
-  }
+  }}
+
   return (
     <>
       <ThemeProvider theme={theme}>
         <Navbar/>
-        <Typography variant='h2' bgcolor='#0E0E0E' color='white' sx={{textAlign: 'center', py: 3}}>Trending 🔥</Typography>
+        <Typography variant='h2' bgcolor='#0E0E0E' color='primary' sx={{textAlign: 'center', py: 3}}>Trending</Typography>
         <Box align='center'>
           {trending.map(anime => (
             <a key={anime.id} target='_blank'>
               <Box
-              onClick={() => getStream(anime.id)}
+              onClick={() => getInfo(anime.id)}
               component="img"
               src={anime.image}
-              sx={{m: 1, borderRadius: 2, boxShadow: 5, height: '460px'}}
+              sx={{m: 1, borderRadius: 2, boxShadow: 5, height: '460px', width: '290px', objectFit: 'cover'}}
               />
             </a>
           ))}
         </Box>
+         <MediaPlayer controls src={`${corsProxy}${episodeUrl}`}> <MediaOutlet/> </MediaPlayer>
       </ThemeProvider>
-
+          
     </>
   )
 }
