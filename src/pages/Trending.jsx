@@ -71,10 +71,10 @@ function Trending() {
   }
 
   const getInfo = async (id) => {
-    const infoUrl =  `https://api.consumet.org/meta/anilist/info/${id}`
+    const infoUrl =  `https://api.consumet.org/meta/anilist/info/${id}`  //there are params for 9anime, zoro, etc 
     try {
       const { data } = await axios.get(infoUrl);
-      console.log(data.episodes[0].id)
+      console.log(data)
       getStream(data.episodes[0].id)
       return data;
   } catch (err) {
@@ -90,15 +90,16 @@ function Trending() {
           {trending.map(anime => (
             <a key={anime.id} target='_blank'>
               <Box
+              className="anime-card"
               onClick={() => getInfo(anime.id)}
               component="img"
               src={anime.image}
-              sx={{m: 1, borderRadius: 2, boxShadow: 5, height: '460px', width: '290px', objectFit: 'cover'}}
+              sx={{m: 1, borderRadius: 2, boxShadow: 5, height: '460px', width: '290px', objectFit: 'cover', cursor: 'pointer', '&:hover': { transform: 'scale(1.05)'}, transition: theme.transitions.create("transform")}}
               />
             </a>
           ))}
         </Box>
-         <MediaPlayer controls src={`${corsProxy}${episodeUrl}`}> <MediaOutlet/> </MediaPlayer>
+         <MediaPlayer controls autoplay src={`${episodeUrl}`}> <MediaOutlet/> </MediaPlayer>
       </ThemeProvider>
           
     </>

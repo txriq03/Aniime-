@@ -35,7 +35,7 @@ const theme = createTheme({
     }
   },
   typography: {
-    fontFamily: 'Youtube Sans',
+    fontFamily: 'Source Sans Pro',
   },
   components: {
     MuiInputLabel: {
@@ -111,7 +111,7 @@ function Navbar() {
               </StyledIconButton>
             </Box>
           </Tooltip>
-          <Tooltip placement='right' TransitionComponent={Zoom} title='Calendar' arrow>
+          <Tooltip placement='right' TransitionComponent={Zoom} title='Schedule' arrow>
             <Box className={location.pathname == '/calendar' ? 'calendar-active' : 'calendar'} onClick={() => navigate('/calendar')}>
               <StyledIconButton sx={{ml: 1.2, mt: 1.2}}>
                 <CalendarMonth className="calendar-icon" style={{ fontSize: 45 }} />

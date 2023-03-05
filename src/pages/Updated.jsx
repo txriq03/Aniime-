@@ -33,7 +33,7 @@ function Updated() {
     <>
       <ThemeProvider theme={theme}>
         <Home/>
-        <Typography variant='h2' bgcolor='#0E0E0E' color='primary' sx={{textAlign: 'center', pt: 3, pb: 2}}>Updated</Typography>
+        <Typography variant='h2' bgcolor='#0E0E0E' color='primary' sx={{textAlign: 'center', pt: 3, pb: 2}}>Recently Updated</Typography>
       </ThemeProvider>
     </>
   )
