@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './css/Home.css';
 import axios from "axios";
 import Navbar from './Navbar'
@@ -7,7 +7,8 @@ import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
 import { ANIME } from '@consumet/extensions';
 import { Update } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
-
+import { motion } from "framer-motion";
+import './css/Home.css'
 
 const styledBox = styled(Box, {})`
   width: min(var(1110px), 100% - var(1rem))
@@ -49,6 +50,8 @@ function Home() {
   const [ data, setData ] = useState("");
   const [ trending, setTrending ] = useState([])
   const [ cover, setCover ] = useState([])
+  const [width, setWidth ] = useState(0)
+  const carousel = useRef();
 
   const getData = async () => {
     const url = "https://api.consumet.org/meta/anilist/info/21";
@@ -60,7 +63,8 @@ function Home() {
 
   useEffect(() => {
     getData(),
-    getTrending()
+    getTrending(),
+    console.log(carousel.current.scrollWidth, carousel.current.offsetWidth)
   }, [])
 
   
@@ -71,7 +75,7 @@ function Home() {
         page: 1,
         perPage: 20
       } });
-      setTrending(data.results.slice(0, 9))
+      setTrending(data.results.slice(0, 20))
       setCover(data.results.slice(0, 5))
       console.log(data)
       return data;
@@ -89,7 +93,7 @@ function Home() {
             {cover.map(anime => (
               <a key={anime.id} target='_blank'>
                 <Box
-                className="anime-card"
+                className="carousel-cover"
                 component="img"
                 src={anime.cover}
                 sx={{m: 1, borderRadius: 2, objectFit: 'cover', width: '1900px', height: '400px'}}
@@ -103,17 +107,22 @@ function Home() {
   
           <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}><Update style={{fontSize: '40'}}/> Recently Updated</Typography>
 
-          {trending.map(anime => (
-            <a key={anime.id} target='_blank'>
-              <Box
-              className="anime-card"
-              onClick={() => getInfo(anime.id)}
-              component="img"
-              src={anime.image}
-              sx={{m: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer', '&:hover': { transform: 'scale(1.05)'}, transition: theme.transitions.create("transform")}}
-              />
-            </a>
-          ))}
+          <motion.div ref={carousel} className="carousel">
+            <motion.div drag="x" dragConstraints={{right: 0, left: -(3840 - 1728)}}  className="inner-carousel" >
+              {trending.map(anime => (
+                <motion.div className='items' key={anime.id}>
+                  <a target='_blank'>
+                    <Box
+                    className="anime-card"
+                    component="img"
+                    src={anime.image}
+                    sx={{m: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
+                    />
+                  </a>
+                </motion.div>
+              ))}              
+            </motion.div>
+          </motion.div>
 
 
         </Box>

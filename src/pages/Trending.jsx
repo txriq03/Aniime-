@@ -90,7 +90,7 @@ function Trending() {
           {trending.map(anime => (
             <a key={anime.id} target='_blank'>
               <Box
-              className="anime-card"
+              className="anime-trending-card"
               onClick={() => getInfo(anime.id)}
               component="img"
               src={anime.image}
