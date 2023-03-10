@@ -10,10 +10,6 @@ import Carousel from 'react-material-ui-carousel';
 import { motion } from "framer-motion";
 import './css/Home.css'
 
-const styledBox = styled(Box, {})`
-  width: min(var(1110px), 100% - var(1rem))
-`
-
 const theme = createTheme({
   palette: {
     mode: 'dark',
@@ -53,6 +49,11 @@ function Home() {
   const [width, setWidth ] = useState(0)
   const carousel = useRef();
 
+  const handleWindowResize = () => {
+    setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
+    console.log(carousel.current.scrollWidth - carousel.current.offsetWidth)
+  }
+
   const getData = async () => {
     const url = "https://api.consumet.org/meta/anilist/info/21";
     await axios.get(url, { params: { provider: "gogoanime" }}).then(
@@ -64,8 +65,18 @@ function Home() {
   useEffect(() => {
     getData(),
     getTrending(),
-    console.log(carousel.current.scrollWidth, carousel.current.offsetWidth)
+    window.addEventListener('resize', handleWindowResize)
+    // console.log(carousel.current.scrollWidth, carousel.current.offsetWidth)
+    // console.log(window.innerWidth)
   }, [])
+  
+  useEffect(() => {
+    setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
+  }, [trending])
+  // useEffect(() => {
+  //   setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
+  // }, [width])
+  
 
   
   const getTrending = async () => {
@@ -101,14 +112,14 @@ function Home() {
               </a>
             ))}
           </Carousel>
-}
+          }
 
             {/* {data != '' && <Box component='img' align='center' src={data} sx={{backgroundColor: '#0E0E0E', borderRadius: 2, my: 2, width: '100%'}}/>} */}
   
-          <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}><Update style={{fontSize: '40'}}/> Recently Updated</Typography>
+          <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}><Update style={{fontSize: '40'}}/> Recently Updated {width}</Typography>
 
           <motion.div ref={carousel} className="carousel">
-            <motion.div drag="x" dragConstraints={{right: 0, left: -(3840 - 1728)}}  className="inner-carousel" >
+            <motion.div drag="x" dragConstraints={{right: 0, left: -width}} className="inner-carousel" >
               {trending.map(anime => (
                 <motion.div className='items' key={anime.id}>
                   <a target='_blank'>
@@ -123,8 +134,6 @@ function Home() {
               ))}              
             </motion.div>
           </motion.div>
-
-
         </Box>
       </ThemeProvider>
 

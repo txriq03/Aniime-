@@ -99,7 +99,7 @@ function Trending() {
             </a>
           ))}
         </Box>
-         <MediaPlayer controls autoplay src={`${episodeUrl}`}> <MediaOutlet/> </MediaPlayer>
+         <MediaPlayer controls autoplay src={`${corsProxy}${episodeUrl}`}> <MediaOutlet/> </MediaPlayer>
       </ThemeProvider>
           
     </>
