@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Card } from '@mui/material';
 import { useEffect, useState, useRef } from 'react';
 import './css/Home.css';
 import axios from "axios";
@@ -53,7 +53,9 @@ function Home() {
     setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
     console.log(carousel.current.scrollWidth - carousel.current.offsetWidth)
   }
-
+  const getInnerWidth = () => {
+    window.innerWidth()
+  }
   const getData = async () => {
     const url = "https://api.consumet.org/meta/anilist/info/21";
     await axios.get(url, { params: { provider: "gogoanime" }}).then(
@@ -64,20 +66,15 @@ function Home() {
 
   useEffect(() => {
     getData(),
-    getTrending(),
-    window.addEventListener('resize', handleWindowResize)
+    getTrending()
+    //window.addEventListener('resize', handleWindowResize)
     // console.log(carousel.current.scrollWidth, carousel.current.offsetWidth)
     // console.log(window.innerWidth)
   }, [])
   
   useEffect(() => {
     setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
-  }, [trending])
-  // useEffect(() => {
-  //   setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
-  // }, [width])
-  
-
+  }, [trending, window.innerWidth])
   
   const getTrending = async () => {
     const trendingUrl = "https://api.consumet.org/meta/anilist/trending";
@@ -98,16 +95,16 @@ function Home() {
     <>
       <ThemeProvider theme={theme}>
         <Navbar/>
-        <Box sx={{width: '90%', margin: 'auto'}}>
+        <Box sx={{ margin: 'auto' }}>
           {cover != '' &&
-          <Carousel duration='1000' animation='slide' sx={{borderRadius: 2}} >
+          <Carousel duration='1000' animation='slide' sx={{ borderRadius: 2 }} >
             {cover.map(anime => (
               <a key={anime.id} target='_blank'>
                 <Box
                 className="carousel-cover"
                 component="img"
                 src={anime.cover}
-                sx={{m: 1, borderRadius: 2, objectFit: 'cover', width: '1900px', height: '400px'}}
+                sx={{m: 1, borderRadius: 2, objectFit: 'cover', width: '1700px', height: '400px', mx: 13}}
                 />
               </a>
             ))}
@@ -115,25 +112,27 @@ function Home() {
           }
 
             {/* {data != '' && <Box component='img' align='center' src={data} sx={{backgroundColor: '#0E0E0E', borderRadius: 2, my: 2, width: '100%'}}/>} */}
-  
-          <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}><Update style={{fontSize: '40'}}/> Recently Updated {width}</Typography>
+          <Box sx={{width: '90%', margin: 'auto'}}>
+            <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}><Update style={{fontSize: '40'}}/> Recently Updated {width}</Typography>
 
-          <motion.div ref={carousel} className="carousel">
-            <motion.div drag="x" dragConstraints={{right: 0, left: -width}} className="inner-carousel" >
-              {trending.map(anime => (
-                <motion.div className='items' key={anime.id}>
-                  <a target='_blank'>
-                    <Box
-                    className="anime-card"
-                    component="img"
-                    src={anime.image}
-                    sx={{m: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
-                    />
-                  </a>
-                </motion.div>
-              ))}              
+            <motion.div ref={carousel} className="carousel">
+              <motion.div drag="x" dragConstraints={{right: 0, left: -width}} className="inner-carousel">
+                {trending.map(anime => (
+                  <motion.div className='items' key={anime.id}>
+                    <a target='_blank'>
+                      <Box
+                      className="anime-card"
+                      component="img"
+                      src={anime.image}
+                      sx={{m: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
+                      />
+                    </a>
+                  </motion.div>
+                ))}              
+              </motion.div>
             </motion.div>
-          </motion.div>
+
+          </Box>
         </Box>
       </ThemeProvider>
 

@@ -13,17 +13,6 @@ import axios from "axios";
 //streaming link example => https://api.consumet.org/meta/anilist/watch/109893?provider=9anime
 //info url example => "https://api.consumet.org/meta/anilist/info/98659?provider=9anime"
 
-// const url = "https://api.consumet.org/meta/anilist/info/21";
-// const data = async () => {
-    // try {
-    //     const { data } = await axios.get(url, { params: { provider: "gogoanime" } });
-    //     return data;
-    // } catch (err) {
-    //     throw new Error(err.message);
-    // }
-// };
-// console.log(data())
-
 const theme = createTheme({
   palette: {
     mode: 'dark',
