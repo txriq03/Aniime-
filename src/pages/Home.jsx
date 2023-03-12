@@ -53,19 +53,17 @@ function Home() {
     setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
     console.log(carousel.current.scrollWidth - carousel.current.offsetWidth)
   }
-  const getInnerWidth = () => {
-    window.innerWidth()
-  }
-  const getData = async () => {
-    const url = "https://api.consumet.org/meta/anilist/info/21";
-    await axios.get(url, { params: { provider: "gogoanime" }}).then(
-    (response) => {
-      setData(response.data.cover)
-    });
-  };
+
+  // const getData = async () => {
+  //   const url = "https://api.consumet.org/meta/anilist/info/142853";
+  //   await axios.get(url, { params: { provider: "9anime" }}).then(
+  //   (response) => {
+  //     setData(response.data.cover)
+  //     console.log(response)
+  //   });
+  // };
 
   useEffect(() => {
-    getData(),
     getTrending()
     //window.addEventListener('resize', handleWindowResize)
     // console.log(carousel.current.scrollWidth, carousel.current.offsetWidth)
@@ -126,6 +124,7 @@ function Home() {
                       src={anime.image}
                       sx={{m: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
                       />
+                      <Typography sx={{overflow: 'hidden', ml: 1}}>{anime.title.romaji}</Typography>
                     </a>
                   </motion.div>
                 ))}              
