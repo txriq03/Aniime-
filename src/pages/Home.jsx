@@ -111,7 +111,7 @@ function Home() {
 
             {/* {data != '' && <Box component='img' align='center' src={data} sx={{backgroundColor: '#0E0E0E', borderRadius: 2, my: 2, width: '100%'}}/>} */}
           <Box sx={{width: '90%', margin: 'auto'}}>
-            <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}><Update style={{fontSize: '40'}}/> Recently Updated {width}</Typography>
+            <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}><Update style={{fontSize: '40'}}/> Recently Updated </Typography>
 
             <motion.div ref={carousel} className="carousel">
               <motion.div drag="x" dragConstraints={{right: 0, left: -width}} className="inner-carousel">
@@ -124,7 +124,7 @@ function Home() {
                       src={anime.image}
                       sx={{m: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
                       />
-                      <Typography sx={{overflow: 'hidden', ml: 1}}>{anime.title.romaji}</Typography>
+                      <Typography sx={{overflow: 'hidden', ml: 1, mb: 5}}>{anime.title.romaji}</Typography>
                     </a>
                   </motion.div>
                 ))}              
