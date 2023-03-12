@@ -134,8 +134,8 @@ function Navbar() {
                 flexGrow: 0
               }}
             />
-            <Typography sx={{}}>by txriq03</Typography>
-            <OutlinedInput sx={{ mr: 10, width: '30%', bgcolor: '#141414', textAlign: 'center'}} style={{margin: 'auto'}} size='small' onChange={(e) => setQuery(e.target.value)} startAdornment={<IconButton sx={{ml: -0.5}} onClick={data} > <Search/> </IconButton>} placeholder='Search...' >Search...</OutlinedInput>
+            <Typography>by txriq03</Typography>
+            <OutlinedInput sx={{ m: 'auto', width: '30%', bgcolor: '#141414', textAlign: 'center'}} size='small' onChange={(e) => setQuery(e.target.value)} startAdornment={<IconButton sx={{ml: -0.5}} onClick={data} > <Search/> </IconButton>} placeholder='Search...' >Search...</OutlinedInput>
             <IconButton sx={{mr: 1}} href='https://discord.com/invite/qTPfvMxzNH'>
               <FaDiscord size='1.2em' color='#5562EA' />
             </IconButton>
@@ -151,7 +151,7 @@ function Navbar() {
                 src={anime.image}
                 sx={{m: 1, borderRadius: 2, boxShadow: 5, height: '460px', width: '290px', objectFit: 'cover'}}
                 />
-                {/* <Typography variant='h6' sx={{pb: 2, px: 2}} >{anime.title.romaji}</Typography> */}
+                <Typography variant='h6' sx={{pb: 2, px: 2}} >{anime.title.romaji}</Typography>
               </a>
           ))}
         </Box>
