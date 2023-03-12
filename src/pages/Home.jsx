@@ -1,4 +1,4 @@
-import { Box, Typography, Card } from '@mui/material';
+import { Box, Typography, Card, Backdrop} from '@mui/material';
 import { useEffect, useState, useRef } from 'react';
 import './css/Home.css';
 import axios from "axios";
@@ -66,8 +66,6 @@ function Home() {
   useEffect(() => {
     getTrending()
     //window.addEventListener('resize', handleWindowResize)
-    // console.log(carousel.current.scrollWidth, carousel.current.offsetWidth)
-    // console.log(window.innerWidth)
   }, [])
   
   useEffect(() => {
@@ -100,6 +98,8 @@ function Home() {
     <>
       <ThemeProvider theme={theme}>
         <Navbar/>
+
+        {/* Top carousel */}
         <Box sx={{ margin: 'auto' }}>
           {cover != '' &&
           <Carousel duration='1000' animation='slide' sx={{ borderRadius: 2 }} >
@@ -116,9 +116,9 @@ function Home() {
           </Carousel>
           }
 
-          <Box sx={{width: '90%', margin: 'auto'}}>
+          {/* Recently Updated Carousel */}
+          <Box sx={{maxWidth: '90%', margin: 'auto'}}>
             <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}><Update style={{fontSize: '40'}}/> Recently Updated </Typography>
-
             <motion.div ref={carousel} className="carousel">
               <motion.div drag="x" dragConstraints={{right: 0, left: -width}} className="inner-carousel">
                 {trending.map(anime => (
@@ -128,9 +128,9 @@ function Home() {
                       className="anime-card"
                       component="img"
                       src={anime.image}
-                      sx={{m: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
+                      sx={{mx: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
                       />
-                      <Typography sx={{overflow: 'hidden', ml: 1, mb: 5}}>{truncate(anime.title.romaji)}</Typography>
+                      <Typography sx={{overflow: 'hidden', ml: 1, mb: 5, color: 'grey'}}>{truncate(anime.title.romaji)}</Typography>
                     </a>
                   </motion.div>
                 ))}              

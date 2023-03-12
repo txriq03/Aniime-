@@ -1,4 +1,4 @@
-import { Typography, CssBaseline, Box, Button, IconButton, useMediaQuery, AppBar, Toolbar, OutlinedInput, Drawer, Tooltip, Zoom } from '@mui/material';
+import { Typography, CssBaseline, Box, Button, IconButton, useMediaQuery, AppBar, Toolbar, OutlinedInput, Drawer, Tooltip, Zoom, Grid} from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Menu,  KeyboardDoubleArrowRight, Search, Whatshot, Update, CalendarMonth, Interests, Cottage } from '@mui/icons-material';
 import {  FaDiscord } from "react-icons/fa";
@@ -69,6 +69,11 @@ function Navbar() {
     }
   };
 
+  const truncate = (str, maxLength = 30 ) => {
+    if (str.length <= maxLength) return str;
+    const truncated = str.substring(0, maxLength-3);
+    return truncated + "..."
+  }
 
   return (
     <>
@@ -143,18 +148,18 @@ function Navbar() {
           </Toolbar>
         </AppBar>
         {searchResults != '' && <Typography variant='h3' align='center' color="primary" sx={{m: 2}}>Results</Typography>}
-        <Box align='center'>
+        <Grid container align='center' direction='row' spacing='0'>
           {searchResults.map(anime => (
-              <a href={anime.image} key={anime.id} target='_blank'>
+              <a href={anime.image} key={anime.id} target='_blank' style={{textDecoration: 'none', color: 'grey'}}>
                 <Box
                 component="img"
                 src={anime.image}
                 sx={{m: 1, borderRadius: 2, boxShadow: 5, height: '460px', width: '290px', objectFit: 'cover'}}
                 />
-                <Typography variant='h6' sx={{pb: 2, px: 2}} >{anime.title.romaji}</Typography>
+                <Typography variant='h6'  sx={{pb: 2, px: 2}} >{truncate(anime.title.romaji)}</Typography>
               </a>
           ))}
-        </Box>
+        </Grid>
 
       </ThemeProvider>
     </>
