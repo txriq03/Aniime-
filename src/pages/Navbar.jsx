@@ -148,13 +148,13 @@ function Navbar() {
           </Toolbar>
         </AppBar>
         {searchResults != '' && <Typography variant='h3' align='center' color="primary" sx={{m: 2}}>Results</Typography>}
-        <Grid container align='center' direction='row' spacing='0'>
+        <Grid container align='center' justifyContent="center" direction='row' spacing='0'>
           {searchResults.map(anime => (
               <a href={anime.image} key={anime.id} target='_blank' style={{textDecoration: 'none', color: 'grey'}}>
                 <Box
                 component="img"
                 src={anime.image}
-                sx={{m: 1, borderRadius: 2, boxShadow: 5, height: '460px', width: '290px', objectFit: 'cover'}}
+                sx={{m: 1, borderRadius: 2, boxShadow: 5, height: '460px', width: '290px', objectFit: 'cover', cursor: 'pointer', '&:hover': { transform: 'scale(1.05)'}, transition: theme.transitions.create("transform")}}
                 />
                 <Typography variant='h6'  sx={{pb: 2, px: 2}} >{truncate(anime.title.romaji)}</Typography>
               </a>

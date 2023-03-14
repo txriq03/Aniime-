@@ -1,4 +1,4 @@
-import { Typography, Box} from '@mui/material'
+import { Typography, Box, Grid} from '@mui/material'
 import { useEffect, useState } from 'react';
 import Navbar from './Navbar'
 import './css/Home.css'
@@ -81,12 +81,18 @@ function Trending() {
       throw new Error(err.message);
   }}
 
+  const truncate = (str, maxLength = 30 ) => {
+    if (str.length <= maxLength) return str;
+    const truncated = str.substring(0, maxLength-3);
+    return truncated + "..."
+  }
+
   return (
     <>
       <ThemeProvider theme={theme}>
         <Navbar/>
         <Typography variant='h2' bgcolor='#0E0E0E' color='primary' sx={{textAlign: 'center', py: 3}}>Trending</Typography>
-        <Box align='center'>
+        <Grid container align='center' justifyContent="center" direction='row' spacing='0'>
           {trending.map(anime => (
             <a key={anime.id} target='_blank'>
               <Box
@@ -96,9 +102,10 @@ function Trending() {
               src={anime.image}
               sx={{m: 1, borderRadius: 2, boxShadow: 5, height: '460px', width: '290px', objectFit: 'cover', cursor: 'pointer', '&:hover': { transform: 'scale(1.05)'}, transition: theme.transitions.create("transform")}}
               />
+              <Typography variant='h6' color='grey'  sx={{pb: 2, px: 2}} >{truncate(anime.title.romaji)}</Typography>
             </a>
           ))}
-        </Box>
+        </Grid>
          <MediaPlayer controls autoplay src={`${corsProxy}${episodeUrl}`}> <MediaOutlet/> </MediaPlayer>
       </ThemeProvider>
           

@@ -1,4 +1,4 @@
-import { Box, Typography, Card, Backdrop} from '@mui/material';
+import { Box, Typography, Card, Backdrop, Grid} from '@mui/material';
 import { useEffect, useState, useRef } from 'react';
 import './css/Home.css';
 import axios from "axios";
@@ -100,16 +100,16 @@ function Home() {
         <Navbar/>
 
         {/* Top carousel */}
-        <Box sx={{ margin: 'auto' }}>
+        <Grid justifyContent='center' >
           {cover != '' &&
-          <Carousel duration='1000' animation='slide' sx={{ borderRadius: 2 }} >
+          <Carousel duration='1000' autoPlay swipe animation='slide' children={{margin: 'auto'}} >
             {cover.map(anime => (
               <a key={anime.id} target='_blank'>
                 <Box
                 className="carousel-cover"
                 component="img"
                 src={anime.cover}
-                sx={{m: 1, borderRadius: 2, objectFit: 'cover', width: '1700px', height: '400px', mx: 13}}
+                sx={{  borderRadius: 2, objectFit: 'cover', width: '1700px', height: '400px'}}
                 />
               </a>
             ))}
@@ -138,7 +138,7 @@ function Home() {
             </motion.div>
 
           </Box>
-        </Box>
+        </Grid>
       </ThemeProvider>
 
     </>
