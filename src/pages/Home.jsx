@@ -102,14 +102,14 @@ function Home() {
         {/* Top carousel */}
         <Grid justifyContent='center' >
           {cover != '' &&
-          <Carousel duration='1000' autoPlay swipe animation='slide' children={{margin: 'auto'}} >
+          <Carousel duration='1000' autoPlay swipe animation='slide' sx={{ml: 13}}>
             {cover.map(anime => (
               <a key={anime.id} target='_blank'>
                 <Box
                 className="carousel-cover"
                 component="img"
                 src={anime.cover}
-                sx={{  borderRadius: 2, objectFit: 'cover', width: '1700px', height: '400px'}}
+                sx={{ borderRadius: 2, objectFit: 'cover', width: '1700px', height: '400px', width: '95%', m: 'auto'}}
                 />
               </a>
             ))}
