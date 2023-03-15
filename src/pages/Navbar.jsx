@@ -13,30 +13,6 @@ import axios from "axios";
 //streaming link example => https://api.consumet.org/meta/anilist/watch/109893?provider=9anime
 //info url example => "https://api.consumet.org/meta/anilist/info/98659?provider=9anime"
 
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#bd284d'
-    },
-    background: {
-      default: '#0E0E0E',
-    }
-  },
-  typography: {
-    fontFamily: 'Source Sans Pro',
-  },
-  components: {
-    MuiInputLabel: {
-      defaultProps: {
-        sx: {
-          fontSize: "1rem",
-        },
-      },
-    },
-  }
-});
-
 const StyledIconButton = styled(IconButton)`
   &:hover {
     background: none;
@@ -81,7 +57,6 @@ function Navbar() {
       <Helmet>
         <title>Home - Aniime</title>
       </Helmet>
-      <ThemeProvider theme={theme}>
       <Drawer anchor='left' open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} elevation={0}>
         <Box p={2} sx={{display: 'flex', flexDirection: 'column'}}>
           <Tooltip title="Home" TransitionComponent={Zoom} placement='right' arrow >
@@ -160,8 +135,6 @@ function Navbar() {
               </a>
           ))}
         </Grid>
-
-      </ThemeProvider>
     </>
   )
 }

@@ -1,67 +1,29 @@
-import { Box, Typography, Card, Backdrop, Grid} from '@mui/material';
+import { Box, Typography, Card, Backdrop, Grid, Paper, Skeleton, ClickAwayListener} from '@mui/material';
 import { useEffect, useState, useRef } from 'react';
 import './css/Home.css';
 import axios from "axios";
 import Navbar from './Navbar'
-import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
 import { ANIME } from '@consumet/extensions';
 import { Update } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
 import { motion } from "framer-motion";
-import './css/Home.css'
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#bd284d'
-    },
-    background: {
-      default: '#0E0E0E',
-    }
-  },
-  typography: {
-    fontFamily: 'Youtube Sans',
-  },
-  components: {
-    MuiInputLabel: {
-      defaultProps: {
-        sx: {
-          fontSize: "1rem",
-        },
-      },
-    },
-  }
-});
-
-// const main = async () => {
-//   const zoro = new ANIME.Zoro();
-//   zoro.search("demon").then(data => {
-//     console.log(data)
-//   })
-// }
-// main()
+import AnimeWindow from '../components/backdrop'
 
 function Home() {
-  const [ data, setData ] = useState("");
-  const [ trending, setTrending ] = useState([])
-  const [ cover, setCover ] = useState([])
-  const [width, setWidth ] = useState(0)
+  const [ trending, setTrending ] = useState([]);
+  const [ cover, setCover ] = useState([]);
+  const [ width, setWidth ] = useState(0);
+  const [ animeWindowUrl, setAnimeWindowUrl ] = useState('');
+  const [ animeTitle, setAnimeTitle ] = useState('');
+  const [ nativeTitle, setNativeTitle ] = useState('');
+  const [ isBackdropOpen, setIsBackdropOpen ] = useState(false);
+  const [ pointerEvent, setPointerEvent ] = useState('auto');
   const carousel = useRef();
 
   const handleWindowResize = () => {
     setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
     console.log(carousel.current.scrollWidth - carousel.current.offsetWidth)
   }
-
-  // const getData = async () => {
-  //   const url = "https://api.consumet.org/meta/anilist/info/142853";
-  //   await axios.get(url, { params: { provider: "9anime" }}).then(
-  //   (response) => {
-  //     setData(response.data.cover)
-  //     console.log(response)
-  //   });
-  // };
 
   useEffect(() => {
     getTrending()
@@ -96,41 +58,41 @@ function Home() {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
         <Navbar/>
 
-        {/* Top carousel */}
+        {/* Banner carousel */}
         <Grid justifyContent='center' >
-          {cover != '' &&
-          <Carousel duration='1000' autoPlay swipe animation='slide' sx={{mx: 10}}>
+          {(cover && isBackdropOpen==false) ?
+          <Carousel duration='1000' autoPlay interval={10000} stopAutoPlayOnHover={false} swipe animation='slide' sx={{mx: 10, mt: 1}}>
             {cover.map(anime => (
               <a key={anime.id} target='_blank'>
                 <Box
                 className="carousel-cover"
                 component="img"
                 src={anime.cover}
-                sx={{ borderRadius: 2, objectFit: 'cover', width: '1700px', height: '400px', width: '100%', m: 'auto'}}
+                sx={{ borderRadius: 2, objectFit: 'cover', height: '400px', width: '100%', m: 'auto',}}
                 />
               </a>
             ))}
           </Carousel>
-          }
+          : <Paper sx={{height: '440px', width: '90%', mx: 'auto', mt: 1, borderRadius: 3, boxShadow: 5, borderColor: '#720026'}} />}
 
           {/* Recently Updated Carousel */}
           <Box sx={{maxWidth: '90%', margin: 'auto'}}>
             <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}><Update style={{fontSize: '40'}}/> Recently Updated </Typography>
             <motion.div ref={carousel} className="carousel">
-              <motion.div drag="x" dragConstraints={{right: 0, left: -width}} className="inner-carousel">
+              <motion.div drag="x" onMouseMove={() => {setPointerEvent('none')}} onMouseUp={() => {setPointerEvent('auto')}} dragConstraints={{right: 0, left: -width}} className="inner-carousel">
                 {trending.map(anime => (
                   <motion.div className='items' key={anime.id}>
-                    <a target='_blank'>
+                    <a target='_blank' onClick={() => { setAnimeWindowUrl(anime.cover); setAnimeTitle(anime.title.romaji); setNativeTitle(anime.title.native); setIsBackdropOpen(true) }}>
                       <Box
                       className="anime-card"
                       component="img"
                       src={anime.image}
                       sx={{mx: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
+                      style={{ pointerEvents: `${pointerEvent}` }}
                       />
-                      <Typography sx={{overflow: 'hidden', ml: 1, mb: 5, color: 'grey'}}>{truncate(anime.title.romaji)}</Typography>
+                      <Typography align='center' sx={{overflow: 'hidden', ml: 1, mb: 5, color: 'grey'}}>{truncate(anime.title.romaji)}</Typography>
                     </a>
                   </motion.div>
                 ))}              
@@ -138,8 +100,14 @@ function Home() {
             </motion.div>
 
           </Box>
+          <Backdrop open={isBackdropOpen}>
+            {isBackdropOpen && <ClickAwayListener onClickAway={() => setIsBackdropOpen(false)}>
+              <div>
+                <AnimeWindow image={animeWindowUrl} title={animeTitle} nativeTitle={nativeTitle} /> 
+              </div>
+            </ClickAwayListener>}
+          </Backdrop>
         </Grid>
-      </ThemeProvider>
 
     </>
   )
