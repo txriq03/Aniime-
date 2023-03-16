@@ -7,6 +7,12 @@ const parser = new DOMParser();
 function AnimeWindow(props) {
     const [ episodeList, setEpisodeList ] = useState([]);
     const [ trailerUrl, setTrailerUrl ] = useState('');
+    const [ averageEpisode, setAverageEpisode ] = useState(0)
+    const truncate = (str, maxLength = 180 ) => {
+        if (str.length <= maxLength) return str;
+        const truncated = str.substring(0, maxLength-3);
+        return truncated + "..."
+      }
 
     const getEpisodes = async () => {
         const url = `https://api.consumet.org/meta/anilist/info/${props.animeId}`;
@@ -15,6 +21,7 @@ function AnimeWindow(props) {
             console.log(data);
             setEpisodeList(data.episodes.slice(0, 7));
             setTrailerUrl(`https://www.youtube.com/watch?v=${data.trailer.id}`)
+            setAverageEpisode(data.duration)
             return data;
         } catch (err) {
             throw new Error(err.message);
@@ -51,30 +58,36 @@ function AnimeWindow(props) {
                 </Box>
                 {/* <Typography variant='h8' mx={2} mt={1} display='block' fontFamily='Nunito'>{props.description}</Typography> */}
                 {/* <h1>{parser.parseFromString(props.description, "text/html")}</h1> */}
-                <div dangerouslySetInnerHTML={{__html: props.description}} style={{marginLeft: 18, fontFamily: 'Nunito'}}/>
+                <div dangerouslySetInnerHTML={{__html: props.description}} style={{marginLeft: 18, marginTop: 5, fontFamily: 'Nunito'}}/>
                 <Typography variant='h5' mx={2} mt={1}>Episodes</Typography>
-                {/* <Box component="img" src="https://artworks.thetvdb.com/banners/v4/episode/9505860/screencap/63b5959c46948.jpg"/> */}
-                    {episodeList.map(episode => {
-                        return (
-                            <Box display='flex' flexDirection='row' key={episode.id}>
-                                <Box
-                                display='flex'
-                                flexDirection='column'
-                                component="img"
-                                src={episode.image}
-                                height='15vw'
-                                maxHeight={'100px'}
-                                my={2}
-                                ml={2}
-                                borderRadius={1}
-                                />
-                                <Box>
-                                    <Typography my={2} mx={2}>{episode.number}. {episode.title}</Typography>
-                                    <Typography fontSize={14} my={-1} mx={2} fontFamily='Nunito'>{episode.description}</Typography>
-                                </Box>
+                {episodeList.map(episode => {
+                    return (
+                        <Box display='flex' flexDirection='row' key={episode.id}>
+                            <Box
+                            display='flex'
+                            flexDirection='column'
+                            component="img"
+                            src={episode.image}
+                            height='15vw'
+                            maxHeight={'100px'}
+                            my={2}
+                            ml={2}
+                            borderRadius={1}
+                            />
+                            <Box>
+                                <Typography my={2} mx={2}>{episode.number}. {episode.title}</Typography>
+                                <Typography fontSize={14} my={-1} mx={2} fontFamily='Nunito'>{truncate(episode.description)}</Typography>
                             </Box>
-                        )
-                        })}
+                        </Box>
+                    )
+                    })}
+                <Box align='center' bgcolor='#bd284d' my={2} height={2} width={650}></Box>
+                <Typography variant='h4' fontFamily='Nunito' mx={2} mt={5}>About</Typography>
+                <Typography fontFamily='Nunito' color='grey' mx={2} mt={1}>Genres: </Typography>
+                <Box display ='flex'>
+                    <Typography fontFamily='Nunito' color='grey' ml={2} mb={3}>Average Episode: </Typography>
+                    <Typography fontFamily='Nunito' color='whitesmoke' ml={0.5}>{averageEpisode}</Typography>
+                </Box>
             </Container>
         </Grid>  
     )

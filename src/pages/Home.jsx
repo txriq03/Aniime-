@@ -60,69 +60,67 @@ function Home() {
 
   return (
     <>
-        <Navbar/>
+      <Navbar/>
+      {/* Banner carousel */}
+      <Grid justifyContent='center' >
+        {(cover && isBackdropOpen==false) ?
+        <Carousel duration='1000' autoPlay interval={10000} stopAutoPlayOnHover={false} swipe animation='slide' sx={{mx: 10, mt: 1}}>
+          {cover.map(anime => (
+            <a key={anime.id} target='_blank'>
+              <Box
+              className="carousel-cover"
+              component="img"
+              src={anime.cover}
+              sx={{ borderRadius: 2, objectFit: 'cover', height: '400px', width: '100%', m: 'auto',}}
+              />
+            </a>
+          ))}
+        </Carousel>
+        : <Paper sx={{height: '440px', width: '90%', mx: 'auto', mt: 1, borderRadius: 3, boxShadow: 5, borderColor: '#720026'}} />}
 
-        {/* Banner carousel */}
-        <Grid justifyContent='center' >
-          {(cover && isBackdropOpen==false) ?
-          <Carousel duration='1000' autoPlay interval={10000} stopAutoPlayOnHover={false} swipe animation='slide' sx={{mx: 10, mt: 1}}>
-            {cover.map(anime => (
-              <a key={anime.id} target='_blank'>
-                <Box
-                className="carousel-cover"
-                component="img"
-                src={anime.cover}
-                sx={{ borderRadius: 2, objectFit: 'cover', height: '400px', width: '100%', m: 'auto',}}
-                />
-              </a>
-            ))}
-          </Carousel>
-          : <Paper sx={{height: '440px', width: '90%', mx: 'auto', mt: 1, borderRadius: 3, boxShadow: 5, borderColor: '#720026'}} />}
-
-          {/* Recently Updated Carousel */}
-          <Box sx={{maxWidth: '90%', margin: 'auto'}}>
-            <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}><Update style={{fontSize: '40'}}/> Recently Updated </Typography>
-            <motion.div ref={carousel} className="carousel">
-              <motion.div drag="x" onMouseMove={() => {setPointerEvent('none')}} onMouseUp={() => {setPointerEvent('auto')}} dragConstraints={{right: 0, left: -width}} className="inner-carousel">
-                {trending.map(anime => (
-                  <motion.div className='items' key={anime.id}>
-                    <a target='_blank' onClick={() => { 
-                        setAnimeWindowUrl(anime.cover); 
-                        setAnimeTitle(anime.title.romaji); 
-                        setNativeTitle(anime.title.native); 
-                        setAnimeDescription(anime.description);
-                        setAnimeId(anime.id); 
-                        setIsBackdropOpen(true) 
-                      }}>
-                      <Box
-                      className="anime-card"
-                      component="img"
-                      src={anime.image}
-                      sx={{mx: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
-                      style={{ pointerEvents: `${pointerEvent}` }}
-                      />
-                      <Typography align='center' sx={{overflow: 'hidden', ml: 1, mb: 5, color: 'grey'}}>{truncate(anime.title.romaji)}</Typography>
-                    </a>
-                  </motion.div>
-                ))}              
-              </motion.div>
+        {/* Recently Updated Carousel */}
+        <Box sx={{maxWidth: '90%', margin: 'auto'}}>
+          <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}><Update style={{fontSize: '40'}}/> Recently Updated </Typography>
+          <motion.div ref={carousel} className="carousel">
+            <motion.div drag="x" onMouseMove={() => {setPointerEvent('none')}} onMouseUp={() => {setPointerEvent('auto')}} dragConstraints={{right: 0, left: -width}} className="inner-carousel">
+              {trending.map(anime => (
+                <motion.div className='items' key={anime.id}>
+                  <a target='_blank' onClick={() => { 
+                      setAnimeWindowUrl(anime.cover); 
+                      setAnimeTitle(anime.title.romaji); 
+                      setNativeTitle(anime.title.native); 
+                      setAnimeDescription(anime.description);
+                      setAnimeId(anime.id); 
+                      setIsBackdropOpen(true) 
+                    }}>
+                    <Box
+                    className="anime-card"
+                    component="img"
+                    src={anime.image}
+                    sx={{mx: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
+                    style={{ pointerEvents: `${pointerEvent}` }}
+                    />
+                    <Typography align='center' sx={{overflow: 'hidden', ml: 1, mb: 5, color: 'grey'}}>{truncate(anime.title.romaji)}</Typography>
+                  </a>
+                </motion.div>
+              ))}              
             </motion.div>
+          </motion.div>
 
-          </Box>
-          <Backdrop open={isBackdropOpen}>
-            {isBackdropOpen && <ClickAwayListener onClickAway={() => setIsBackdropOpen(false)}>
-              <div>
-                <AnimeWindow 
-                image={animeWindowUrl} 
-                title={animeTitle} 
-                nativeTitle={nativeTitle} 
-                description={animeDescription}
-                animeId={animeId} /> 
-              </div>
-            </ClickAwayListener>}
-          </Backdrop>
-        </Grid>
-
+        </Box>
+        <Backdrop open={isBackdropOpen}>
+          {isBackdropOpen && <ClickAwayListener onClickAway={() => setIsBackdropOpen(false)}>
+            <div>
+              <AnimeWindow 
+              image={animeWindowUrl} 
+              title={animeTitle} 
+              nativeTitle={nativeTitle} 
+              description={animeDescription}
+              animeId={animeId} /> 
+            </div>
+          </ClickAwayListener>}
+        </Backdrop>
+      </Grid>
     </>
   )
 }
