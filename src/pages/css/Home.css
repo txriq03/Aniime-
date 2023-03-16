@@ -184,3 +184,7 @@
     cursor: grab;
     overflow: hidden;
 }
+
+.BackdropGrid::-webkit-scrollbar {
+    display: none;
+}

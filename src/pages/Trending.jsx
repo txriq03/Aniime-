@@ -35,7 +35,6 @@ const theme = createTheme({
 
 function Trending() {
   const [ trending, setTrending ] = useState([])
-  const [ selected, setSelected ] = useState(false)
   const [ episodeUrl, setEpisodeUrl ] = useState('')
   
   const trendingUrl = "https://api.consumet.org/meta/anilist/trending";
@@ -106,7 +105,7 @@ function Trending() {
             </a>
           ))}
         </Grid>
-         <MediaPlayer controls autoplay src={`${corsProxy}${episodeUrl}`}> <MediaOutlet/> </MediaPlayer>
+        <MediaPlayer controls autoplay src={`${corsProxy}${episodeUrl}`}> <MediaOutlet/> </MediaPlayer>
       </ThemeProvider>
           
     </>

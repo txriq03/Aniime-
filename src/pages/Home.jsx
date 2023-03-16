@@ -16,6 +16,8 @@ function Home() {
   const [ animeWindowUrl, setAnimeWindowUrl ] = useState('');
   const [ animeTitle, setAnimeTitle ] = useState('');
   const [ nativeTitle, setNativeTitle ] = useState('');
+  const [ animeDescription, setAnimeDescription ] = useState('');
+  const [ animeId, setAnimeId ] = useState('');
   const [ isBackdropOpen, setIsBackdropOpen ] = useState(false);
   const [ pointerEvent, setPointerEvent ] = useState('auto');
   const carousel = useRef();
@@ -84,7 +86,14 @@ function Home() {
               <motion.div drag="x" onMouseMove={() => {setPointerEvent('none')}} onMouseUp={() => {setPointerEvent('auto')}} dragConstraints={{right: 0, left: -width}} className="inner-carousel">
                 {trending.map(anime => (
                   <motion.div className='items' key={anime.id}>
-                    <a target='_blank' onClick={() => { setAnimeWindowUrl(anime.cover); setAnimeTitle(anime.title.romaji); setNativeTitle(anime.title.native); setIsBackdropOpen(true) }}>
+                    <a target='_blank' onClick={() => { 
+                        setAnimeWindowUrl(anime.cover); 
+                        setAnimeTitle(anime.title.romaji); 
+                        setNativeTitle(anime.title.native); 
+                        setAnimeDescription(anime.description);
+                        setAnimeId(anime.id); 
+                        setIsBackdropOpen(true) 
+                      }}>
                       <Box
                       className="anime-card"
                       component="img"
@@ -103,7 +112,12 @@ function Home() {
           <Backdrop open={isBackdropOpen}>
             {isBackdropOpen && <ClickAwayListener onClickAway={() => setIsBackdropOpen(false)}>
               <div>
-                <AnimeWindow image={animeWindowUrl} title={animeTitle} nativeTitle={nativeTitle} /> 
+                <AnimeWindow 
+                image={animeWindowUrl} 
+                title={animeTitle} 
+                nativeTitle={nativeTitle} 
+                description={animeDescription}
+                animeId={animeId} /> 
               </div>
             </ClickAwayListener>}
           </Backdrop>
