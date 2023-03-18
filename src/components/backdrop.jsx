@@ -49,7 +49,6 @@ function AnimeWindow(props) {
         const { data } = await axios.get(streamUrl);
         console.log(data)
         setEpisodeUrl(data.sources[3].url)
-        const params = {query: `${data.sources[3].url}`}
         return data;
     } catch (err) {
         throw new Error(err.message);
@@ -60,7 +59,7 @@ function AnimeWindow(props) {
     }, [])
 
     return (
-        <Grid className="BackdropGrid" justifyContent='center' sx={{ width: '800px', height: '95vh', bgcolor: '#0E0E0E', borderRadius: 2, boxShadow: 10, overflowY: 'auto', overflowX: 'hidden'}} >
+        <Grid className="BackdropGrid" justifyContent='center' sx={{ width: '800px', height: '98vh', bgcolor: '#0E0E0E', borderRadius: 2, boxShadow: 10, overflowY: 'auto', overflowX: 'hidden'}} >
             <Box src={cover} sx={{width: "100%", height: '33%', borderRadius: 2, objectFit: 'cover'}} component="img"/>
             <Container>
                 <Typography variant='h3' noWrap align='left' color='whitesmoke' sx={{mx: 2, my: 1}}> {props.title} 
@@ -73,13 +72,12 @@ function AnimeWindow(props) {
                         <Button variant='outlined' size='large' sx={{my: 1, ml: 1}}><Info sx={{mr: 0.5}}/>Watch trailer</Button>
                     </a>
                 </Box>
-                {/* <Typography variant='h8' mx={2} mt={1} display='block' fontFamily='Nunito'>{props.description}</Typography> */}
-                {/* <h1>{parser.parseFromString(props.description, "text/html")}</h1> */}
                 <div dangerouslySetInnerHTML={{__html: props.description}} style={{marginLeft: 18, marginTop: 5, fontFamily: 'Nunito'}}/>
+
                 <Typography variant='h5' mx={2} mt={1}>Episodes</Typography>
                 {episodeList.map(episode => {
                     return (
-                        <Box display='flex' flexDirection='row' key={episode.id}>
+                        <Box display='flex' flexDirection='row' key={episode.id} onClick={() => {navigate({pathname: `/watch/${episode.id}`})}}>
                             {(episode.image) ?
                             <Box
                             ref={thumbnail}
@@ -101,6 +99,7 @@ function AnimeWindow(props) {
                         </Box>
                     )
                     })}
+
                 <Box align='center' bgcolor='#bd284d' my={2} height={2} width={650}></Box>
                 <Typography variant='h4' fontFamily='Nunito' mx={2} mt={5}>About</Typography>
                 <Box display='flex'>
