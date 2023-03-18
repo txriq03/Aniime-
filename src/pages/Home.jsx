@@ -20,21 +20,14 @@ function Home() {
   const [ animeId, setAnimeId ] = useState('');
   const [ isBackdropOpen, setIsBackdropOpen ] = useState(false);
   const [ pointerEvent, setPointerEvent ] = useState('auto');
+  const [ lastScroll, setLastScroll ] = useState(0);
   const carousel = useRef();
 
   const handleWindowResize = () => {
     setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
     console.log(carousel.current.scrollWidth - carousel.current.offsetWidth)
   }
-
-  useEffect(() => {
-    getTrending()
-    //window.addEventListener('resize', handleWindowResize)
-  }, [])
   
-  useEffect(() => {
-    setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
-  }, [trending, window.innerWidth])
   
   const getTrending = async () => {
     const trendingUrl = "https://api.consumet.org/meta/anilist/trending";
@@ -50,6 +43,15 @@ function Home() {
     } catch (err) {
       throw new Error(err.message);
     }};
+
+    useEffect(() => {
+      setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
+    }, [trending, window.innerWidth])
+    
+    useEffect(() => {
+      getTrending()
+      //window.addEventListener('resize', handleWindowResize)
+    }, [])
 
   //Shorten anime titles
   const truncate = (str, maxLength = 30 ) => {
@@ -80,12 +82,16 @@ function Home() {
 
         {/* Recently Updated Carousel */}
         <Box sx={{maxWidth: '90%', margin: 'auto'}}>
-          <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}><Update style={{fontSize: '40'}}/> Recently Updated </Typography>
+          <Box display='flex'>
+            <Update style={{fontSize: '40'}} sx={{mt: 2.5, mr: 1}}/>
+            <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}> Recently Updated </Typography>
+          </Box>
           <motion.div ref={carousel} className="carousel">
             <motion.div drag="x" onMouseMove={() => {setPointerEvent('none')}} onMouseUp={() => {setPointerEvent('auto')}} dragConstraints={{right: 0, left: -width}} className="inner-carousel">
               {trending.map(anime => (
                 <motion.div className='items' key={anime.id}>
-                  <a target='_blank' onClick={() => { 
+                  <a target='_blank' onClick={() => {
+                      setLastScroll(window.scrollHeight); 
                       setAnimeWindowUrl(anime.cover); 
                       setAnimeTitle(anime.title.romaji); 
                       setNativeTitle(anime.title.native); 
@@ -109,8 +115,9 @@ function Home() {
 
         </Box>
         <Backdrop open={isBackdropOpen}>
-          {isBackdropOpen && <ClickAwayListener onClickAway={() => setIsBackdropOpen(false)}>
+          {isBackdropOpen && <ClickAwayListener onClickAway={() => {setIsBackdropOpen(false); window.scrollBy(0, lastScroll)}}>
             <div>
+              <Typography>{lastScroll}</Typography>
               <AnimeWindow 
               image={animeWindowUrl} 
               title={animeTitle} 

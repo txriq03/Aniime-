@@ -8,7 +8,7 @@ import 'vidstack/define/media-player.js';
 import 'vidstack/styles/defaults.css';
 import { MediaOutlet, MediaPlayer } from '@vidstack/react';
 
-const corsProxy = "https://cors.haikei.xyz/"
+const corsProxy = "http://localhost:8080/"
 const theme = createTheme({
   palette: {
     mode: 'dark',
