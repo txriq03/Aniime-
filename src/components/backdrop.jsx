@@ -1,18 +1,24 @@
 import { useEffect, useState, useRef } from 'react';
 import { Grid, Typography, Box, Button, Container, Skeleton } from '@mui/material';
 import { Info, PlayCircle } from '@mui/icons-material';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 import axios from 'axios';
+
 const parser = new DOMParser();
 
+
 function AnimeWindow(props) {
+    const navigate = useNavigate();
     const [ episodeList, setEpisodeList ] = useState([]);
     const [ trailerUrl, setTrailerUrl ] = useState('');
     const [ averageEpisode, setAverageEpisode ] = useState(0);
     const [ popularity, setPopularity ] = useState(0);
     const [ genres, setGenres ] = useState([]);
+    const [ episodeUrl, setEpisodeUrl ] = useState('');
+    const [ firstEpisodeId, setFirstEpisodeId ] = useState('');
     const thumbnail = useRef();
 
-    const truncate = (str, maxLength = 180 ) => {
+    const truncate = (str, maxLength = 230 ) => {
         if (str.length <= maxLength) return str;
         const truncated = str.substring(0, maxLength-3);
         return truncated + "..."
@@ -28,6 +34,7 @@ function AnimeWindow(props) {
             setAverageEpisode(data.duration)
             setPopularity(data.popularity)
             setGenres(data.genres)
+            setFirstEpisodeId(data.episodes[0].id)
             return data;
         } catch (err) {
             throw new Error(err.message);
@@ -40,6 +47,7 @@ function AnimeWindow(props) {
         const { data } = await axios.get(streamUrl);
         console.log(data)
         setEpisodeUrl(data.sources[3].url)
+        const params = {query: `${data.sources[3].url}`}
         return data;
     } catch (err) {
         throw new Error(err.message);
@@ -50,16 +58,17 @@ function AnimeWindow(props) {
     }, [])
 
     return (
-        <Grid className="BackdropGrid" justifyContent='center' sx={{ width: '700px', height: '95vh', bgcolor: '#0E0E0E', borderRadius: 2, boxShadow: 10, overflowY: 'auto', overflowX: 'hidden'}} >
+        <Grid className="BackdropGrid" justifyContent='center' sx={{ width: '800px', height: '95vh', bgcolor: '#0E0E0E', borderRadius: 2, boxShadow: 10, overflowY: 'auto', overflowX: 'hidden'}} >
             <Box src={props.image} sx={{width: "100%", height: '33%', borderRadius: 2, objectFit: 'cover'}} component="img"/>
             <Container>
                 <Typography variant='h3' noWrap align='left' color='whitesmoke' sx={{mx: 2, my: 1}}> {props.title} 
                     <Typography sx={{ml: 0.5, mt: 0.5}}>({props.nativeTitle})</Typography>
                 </Typography>
                 <Box display='flex'>
-                    <Button variant='contained' sx={{ml: 2, my: 1}}><PlayCircle sx={{mr: 0.5}}/>Watch Episode 1</Button>
+                    <Button variant='contained' size='large' sx={{ml: 2, my: 1}} onClick={() => {navigate({pathname: `/watch/${firstEpisodeId}`})
+                    }}><PlayCircle sx={{mr: 0.5}}/>Watch Episode 1</Button>
                     <a style={{textDecoration: 'none'}} href={trailerUrl} target='_blank'>
-                        <Button variant='outlined'  sx={{my: 1, ml: 1}}><Info sx={{mr: 0.5}}/>Watch trailer</Button>
+                        <Button variant='outlined' size='large' sx={{my: 1, ml: 1}}><Info sx={{mr: 0.5}}/>Watch trailer</Button>
                     </a>
                 </Box>
                 {/* <Typography variant='h8' mx={2} mt={1} display='block' fontFamily='Nunito'>{props.description}</Typography> */}
@@ -67,7 +76,6 @@ function AnimeWindow(props) {
                 <div dangerouslySetInnerHTML={{__html: props.description}} style={{marginLeft: 18, marginTop: 5, fontFamily: 'Nunito'}}/>
                 <Typography variant='h5' mx={2} mt={1}>Episodes</Typography>
                 {episodeList.map(episode => {
-                    console.log(episode.image)
                     return (
                         <Box display='flex' flexDirection='row' key={episode.id}>
                             {(episode.image) ?

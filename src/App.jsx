@@ -6,6 +6,7 @@ import Trending from './pages/Trending'
 import Updated from './pages/Updated'
 import Categories from './pages/Categories'
 import Calendar from './pages/Calendar'
+import Watch from './pages/Watch'
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       <Route path="/updated" element={<Updated/>}/>
       <Route path="/categories" element={<Categories/>}/>
       <Route path="/calendar" element={<Calendar/>}/>
-
+      <Route path="/watch/:id" element={<Watch/>}/>
     </Routes>
   )
 }

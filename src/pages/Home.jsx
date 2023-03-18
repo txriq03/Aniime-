@@ -8,6 +8,7 @@ import { Update } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
 import { motion } from "framer-motion";
 import AnimeWindow from '../components/backdrop'
+import PopularCarousel from '../components/PopularCarousel';
 
 function Home() {
   const [ trending, setTrending ] = useState([]);
@@ -84,7 +85,7 @@ function Home() {
         <Box sx={{maxWidth: '90%', margin: 'auto'}}>
           <Box display='flex'>
             <Update style={{fontSize: '40'}} sx={{mt: 2.5, mr: 1}}/>
-            <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}> Recently Updated </Typography>
+            <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}>Trending</Typography>
           </Box>
           <motion.div ref={carousel} className="carousel">
             <motion.div drag="x" onMouseMove={() => {setPointerEvent('none')}} onMouseUp={() => {setPointerEvent('auto')}} dragConstraints={{right: 0, left: -width}} className="inner-carousel">
@@ -112,6 +113,7 @@ function Home() {
               ))}              
             </motion.div>
           </motion.div>
+          <PopularCarousel/>
 
         </Box>
         <Backdrop open={isBackdropOpen}>
