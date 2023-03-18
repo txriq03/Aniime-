@@ -113,7 +113,7 @@ function Home() {
               ))}              
             </motion.div>
           </motion.div>
-          <PopularCarousel/>
+          <PopularCarousel isOpen={isBackdropOpen} setOpen={setIsBackdropOpen} animeWindowUrl={animeWindowUrl} setAnimeWindowUrl={setAnimeWindowUrl} animeTitle={animeTitle} setAnimeTitle={setAnimeTitle} nativeTitle={nativeTitle} setNativeTitle={setNativeTitle} animeDescription={animeDescription} setAnimeDescription={setAnimeDescription} animeId={animeId} setAnimeId={setAnimeId}/>
 
         </Box>
         <Backdrop open={isBackdropOpen}>

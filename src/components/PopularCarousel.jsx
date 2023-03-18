@@ -6,17 +6,16 @@ import { motion } from "framer-motion";
 import AnimeWindow from '../components/backdrop'
 import { Update } from '@mui/icons-material'
 
-function PopularCarousel(props) {
+function PopularCarousel({ isOpen, setOpen, animeWindowUrl, setAnimeWindowUrl, animeTitle, setAnimeTitle, nativeTitle, setNativeTitle, animeDescription, setAnimeDescription, animeId, setAnimeId }) {
 
-    const [ trending, setTrending ] = useState([]);
+    const [ popular, setPopular ] = useState([]);
     const [ cover, setCover ] = useState([]);
     const [ width, setWidth ] = useState(0);
-    const [ animeWindowUrl, setAnimeWindowUrl ] = useState('');
-    const [ animeTitle, setAnimeTitle ] = useState('');
-    const [ nativeTitle, setNativeTitle ] = useState('');
-    const [ animeDescription, setAnimeDescription ] = useState('');
-    const [ animeId, setAnimeId ] = useState('');
-    const [ isBackdropOpen, setIsBackdropOpen ] = useState(false);
+    // const [ animeWindowUrl, setAnimeWindowUrl ] = useState('');
+    // const [ animeTitle, setAnimeTitle ] = useState('');
+    // const [ nativeTitle, setNativeTitle ] = useState('');
+    // const [ animeDescription, setAnimeDescription ] = useState('');
+    // const [ animeId, setAnimeId ] = useState('');
     const [ pointerEvent, setPointerEvent ] = useState('auto');
     const [ lastScroll, setLastScroll ] = useState(0);
     const carousel = useRef();
@@ -32,15 +31,15 @@ function PopularCarousel(props) {
         return truncated + "..."
     }
     
-    const getTrending = async () => {
-      const trendingUrl = "https://api.consumet.org/meta/anilist/recent-episodes";
+    const getPopular = async () => {
+      const popularUrl = "https://api.consumet.org/meta/anilist/recent-episodes";
       try {
-        const { data } = await axios.get(trendingUrl, { params: {
+        const { data } = await axios.get(popularUrl, { params: {
           page: 1,
           perPage: 20
         } });
         console.log(data)
-        setTrending(data.results.slice(0, 20))
+        setPopular(data.results.slice(0, 20))
         return data;
       } catch (err) {
         throw new Error(err.message);
@@ -48,10 +47,10 @@ function PopularCarousel(props) {
 
     useEffect(() => {
     setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
-    }, [trending, window.innerWidth])
+    }, [popular, window.innerWidth])
     
     useEffect(() => {
-    getTrending()
+    getPopular()
     //window.addEventListener('resize', handleWindowResize)
     }, [])
 
@@ -63,7 +62,7 @@ function PopularCarousel(props) {
             </Box>
             <motion.div ref={carousel} className="carousel">
                 <motion.div drag="x" onMouseMove={() => {setPointerEvent('none')}} onMouseUp={() => {setPointerEvent('auto')}} dragConstraints={{right: 0, left: -width}} className="inner-carousel">
-                    {trending.map(anime => (
+                    {popular.map(anime => (
                     <motion.div className='items' key={anime.id}>
                         <a target='_blank' onClick={() => {
                             setLastScroll(window.scrollHeight); 
@@ -72,7 +71,7 @@ function PopularCarousel(props) {
                             setNativeTitle(anime.title.native); 
                             setAnimeDescription(anime.description);
                             setAnimeId(anime.id); 
-                            setIsBackdropOpen(true) 
+                            setOpen(true) 
                         }}>
                         <Box
                         className="anime-card"
@@ -87,19 +86,7 @@ function PopularCarousel(props) {
                     ))}              
                 </motion.div>
             </motion.div>
-            <Backdrop open={isBackdropOpen}>
-                {isBackdropOpen && <ClickAwayListener onClickAway={() => {setIsBackdropOpen(false); window.scrollBy(0, lastScroll)}}>
-                    <div>
-                    <Typography>{lastScroll}</Typography>
-                    <AnimeWindow 
-                    image={animeWindowUrl} 
-                    title={animeTitle} 
-                    nativeTitle={nativeTitle} 
-                    description={animeDescription}
-                    animeId={animeId} /> 
-                    </div>
-                </ClickAwayListener>}
-            </Backdrop> 
+            
         </>
         )
 }

@@ -16,6 +16,7 @@ function AnimeWindow(props) {
     const [ genres, setGenres ] = useState([]);
     const [ episodeUrl, setEpisodeUrl ] = useState('');
     const [ firstEpisodeId, setFirstEpisodeId ] = useState('');
+    const [ cover, setCover ] = useState('')
     const thumbnail = useRef();
 
     const truncate = (str, maxLength = 230 ) => {
@@ -35,6 +36,7 @@ function AnimeWindow(props) {
             setPopularity(data.popularity)
             setGenres(data.genres)
             setFirstEpisodeId(data.episodes[0].id)
+            setCover(data.cover)
             return data;
         } catch (err) {
             throw new Error(err.message);
@@ -59,7 +61,7 @@ function AnimeWindow(props) {
 
     return (
         <Grid className="BackdropGrid" justifyContent='center' sx={{ width: '800px', height: '95vh', bgcolor: '#0E0E0E', borderRadius: 2, boxShadow: 10, overflowY: 'auto', overflowX: 'hidden'}} >
-            <Box src={props.image} sx={{width: "100%", height: '33%', borderRadius: 2, objectFit: 'cover'}} component="img"/>
+            <Box src={cover} sx={{width: "100%", height: '33%', borderRadius: 2, objectFit: 'cover'}} component="img"/>
             <Container>
                 <Typography variant='h3' noWrap align='left' color='whitesmoke' sx={{mx: 2, my: 1}}> {props.title} 
                     <Typography sx={{ml: 0.5, mt: 0.5}}>({props.nativeTitle})</Typography>
