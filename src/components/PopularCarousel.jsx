@@ -1,9 +1,8 @@
-import { Box, Typography, Card, Backdrop, Grid, Paper, Skeleton, ClickAwayListener} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useEffect, useState, useRef } from 'react';
 import '../pages/css/Home.css';
 import axios from "axios";
 import { motion } from "framer-motion";
-import AnimeWindow from '../components/backdrop'
 import { Update } from '@mui/icons-material'
 
 function PopularCarousel({ isOpen, setOpen, animeWindowUrl, setAnimeWindowUrl, animeTitle, setAnimeTitle, nativeTitle, setNativeTitle, animeDescription, setAnimeDescription, animeId, setAnimeId }) {
@@ -11,11 +10,6 @@ function PopularCarousel({ isOpen, setOpen, animeWindowUrl, setAnimeWindowUrl, a
     const [ popular, setPopular ] = useState([]);
     const [ cover, setCover ] = useState([]);
     const [ width, setWidth ] = useState(0);
-    // const [ animeWindowUrl, setAnimeWindowUrl ] = useState('');
-    // const [ animeTitle, setAnimeTitle ] = useState('');
-    // const [ nativeTitle, setNativeTitle ] = useState('');
-    // const [ animeDescription, setAnimeDescription ] = useState('');
-    // const [ animeId, setAnimeId ] = useState('');
     const [ pointerEvent, setPointerEvent ] = useState('auto');
     const [ lastScroll, setLastScroll ] = useState(0);
     const carousel = useRef();

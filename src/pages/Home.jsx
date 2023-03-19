@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import AnimeWindow from '../components/backdrop'
 import PopularCarousel from '../components/PopularCarousel';
 
+
 function Home() {
   const [ trending, setTrending ] = useState([]);
   const [ cover, setCover ] = useState([]);
@@ -28,7 +29,6 @@ function Home() {
     setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
     console.log(carousel.current.scrollWidth - carousel.current.offsetWidth)
   }
-  
   
   const getTrending = async () => {
     const trendingUrl = "https://api.consumet.org/meta/anilist/trending";
@@ -119,7 +119,6 @@ function Home() {
         <Backdrop open={isBackdropOpen}>
           {isBackdropOpen && <ClickAwayListener onClickAway={() => {setIsBackdropOpen(false); window.scrollBy(0, lastScroll)}}>
             <div>
-              <Typography>{lastScroll}</Typography>
               <AnimeWindow 
               image={animeWindowUrl} 
               title={animeTitle} 

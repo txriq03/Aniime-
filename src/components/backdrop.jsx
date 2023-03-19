@@ -16,13 +16,18 @@ function AnimeWindow(props) {
     const [ genres, setGenres ] = useState([]);
     const [ episodeUrl, setEpisodeUrl ] = useState('');
     const [ firstEpisodeId, setFirstEpisodeId ] = useState('');
-    const [ cover, setCover ] = useState('')
+    const [ cover, setCover ] = useState('');
+    const [ isLoading, setLoading ] = useState();
     const thumbnail = useRef();
 
     const truncate = (str, maxLength = 230 ) => {
-        if (str.length <= maxLength) return str;
-        const truncated = str.substring(0, maxLength-3);
-        return truncated + "..."
+        try {
+            if (str.length <= maxLength) return str;
+            const truncated = str.substring(0, maxLength-3);
+            return truncated + "..."
+        } catch(err) {
+            return str
+        }
       }
 
     const getEpisodes = async () => {
@@ -30,13 +35,21 @@ function AnimeWindow(props) {
         try {
             const { data } = await axios.get(url);
             console.log(data);
+            
             setEpisodeList(data.episodes.slice(0, 7));
-            setTrailerUrl(`https://www.youtube.com/watch?v=${data.trailer.id}`)
+            
+            try {
+                setTrailerUrl(`https://www.youtube.com/watch?v=${data.trailer.id}`)
+            } catch(err) {
+                console.log(err)
+            }
+
             setAverageEpisode(data.duration)
             setPopularity(data.popularity)
             setGenres(data.genres)
             setFirstEpisodeId(data.episodes[0].id)
             setCover(data.cover)
+            setLoading(false)
             return data;
         } catch (err) {
             throw new Error(err.message);
@@ -55,12 +68,14 @@ function AnimeWindow(props) {
     }}
 
     useEffect(() => {
-        getEpisodes();
+        setLoading(true),
+        getEpisodes()
     }, [])
 
     return (
         <Grid className="BackdropGrid" justifyContent='center' sx={{ width: '800px', height: '98vh', bgcolor: '#0E0E0E', borderRadius: 2, boxShadow: 10, overflowY: 'auto', overflowX: 'hidden'}} >
-            <Box src={cover} sx={{width: "100%", height: '33%', borderRadius: 2, objectFit: 'cover'}} component="img"/>
+            {cover ? <Box src={cover} sx={{width: "100%", height: '33%', borderRadius: 2, objectFit: 'cover'}} component="img"/> 
+            : <Skeleton variant='rectangular' width='100%' height='33%'/>}
             <Container>
                 <Typography variant='h3' noWrap align='left' color='whitesmoke' sx={{mx: 2, my: 1}}> {props.title} 
                     <Typography sx={{ml: 0.5, mt: 0.5}}>({props.nativeTitle})</Typography>
@@ -78,7 +93,6 @@ function AnimeWindow(props) {
                 {episodeList.map(episode => {
                     return (
                         <Box display='flex' flexDirection='row' key={episode.id} onClick={() => {navigate({pathname: `/watch/${episode.id}`})}}>
-                            {(episode.image) ?
                             <Box
                             ref={thumbnail}
                             display='flex'
@@ -90,8 +104,7 @@ function AnimeWindow(props) {
                             my={2}
                             ml={2}
                             borderRadius={1}
-                            /> : 
-                            <Skeleton sx={{my: 2, ml: 2, height: '100px', width: '350px'}} variant='rectangular'/>}
+                            /> 
                             <Box>
                                 <Typography my={2} mx={2} noWrap textOverflow='hidden'>{episode.number}. {episode.title}</Typography>
                                 <Typography fontSize={14} my={-1} mx={2} fontFamily='Nunito'>{truncate(episode.description)}</Typography>
@@ -100,7 +113,7 @@ function AnimeWindow(props) {
                     )
                     })}
 
-                <Box align='center' bgcolor='#bd284d' my={2} height={2} width={650}></Box>
+                <Box align='center' bgcolor='#bd284d' my={2} height={2} width={750}/>
                 <Typography variant='h4' fontFamily='Nunito' mx={2} mt={5}>About</Typography>
                 <Box display='flex'>
                     <Typography fontFamily='Nunito' color='grey' mx={2} mt={1}>Genres: </Typography>

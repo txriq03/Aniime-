@@ -7,6 +7,7 @@ import Updated from './pages/Updated'
 import Categories from './pages/Categories'
 import Calendar from './pages/Calendar'
 import Watch from './pages/Watch'
+import Search from './pages/Search'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path="/categories" element={<Categories/>}/>
       <Route path="/calendar" element={<Calendar/>}/>
       <Route path="/watch/:id" element={<Watch/>}/>
+      <Route path="/search/:query" element={<Search/>}/>
     </Routes>
   )
 }
