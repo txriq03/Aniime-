@@ -81,7 +81,7 @@ function Home() {
         </Carousel>
         : <Paper sx={{height: '440px', width: '90%', mx: 'auto', mt: 1, borderRadius: 3, boxShadow: 5, borderColor: '#720026'}} />}
 
-        {/* Recently Updated Carousel */}
+        {/* Trending Carousel */}
         <Box sx={{maxWidth: '90%', margin: 'auto'}}>
           <Box display='flex'>
             <Update style={{fontSize: '40'}} sx={{mt: 2.5, mr: 1}}/>

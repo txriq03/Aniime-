@@ -12,7 +12,8 @@ function AnimeWindow(props) {
     const [ episodeList, setEpisodeList ] = useState([]);
     const [ trailerUrl, setTrailerUrl ] = useState('');
     const [ averageEpisode, setAverageEpisode ] = useState(0);
-    const [ popularity, setPopularity ] = useState(0);
+    const [ rating, setRating ] = useState(0);
+    const [ ratingColor, setRatingColor ] = useState('');
     const [ genres, setGenres ] = useState([]);
     const [ episodeUrl, setEpisodeUrl ] = useState('');
     const [ firstEpisodeId, setFirstEpisodeId ] = useState('');
@@ -45,33 +46,35 @@ function AnimeWindow(props) {
             }
 
             setAverageEpisode(data.duration)
-            setPopularity(data.popularity)
             setGenres(data.genres)
             setFirstEpisodeId(data.episodes[0].id)
             setCover(data.cover)
             setLoading(false)
+            setRating(data.rating)
             return data;
         } catch (err) {
             throw new Error(err.message);
         }
       }
 
-    const getStream = async (episodeId) => {
-    const streamUrl = `https://api.consumet.org/meta/anilist/watch/${episodeId}`;
-    try {
-        const { data } = await axios.get(streamUrl);
-        console.log(data)
-        setEpisodeUrl(data.sources[3].url)
-        return data;
-    } catch (err) {
-        throw new Error(err.message);
-    }}
+    const changeRatingColor = () => {
+        if (rating < 40) {
+            setRatingColor('red')
+        } else if (rating > 70) {
+            setRatingColor('lightgreen')
+        } else {
+            setRatingColor('orange')
+        }
+    }
 
     useEffect(() => {
         setLoading(true),
         getEpisodes()
-    }, [])
 
+    }, [])
+    useEffect(() => {
+        changeRatingColor()
+    }, [ rating ])
     return (
         <Grid className="BackdropGrid" justifyContent='center' sx={{ width: '800px', height: '98vh', bgcolor: '#0E0E0E', borderRadius: 2, boxShadow: 10, overflowY: 'auto', overflowX: 'hidden'}} >
             {cover ? <Box src={cover} sx={{width: "100%", height: '33%', borderRadius: 2, objectFit: 'cover'}} component="img"/> 
@@ -126,8 +129,9 @@ function AnimeWindow(props) {
                     <Typography fontFamily='Nunito' color='whitesmoke' ml={0.5}>{averageEpisode}</Typography>
                 </Box>
                 <Box display= 'flex'>
-                    <Typography fontFamily='Nunito' color='grey' ml={2} mb={3}>Popularity: </Typography>
-                    <Typography fontFamily='Nunito' color='whitesmoke' ml={0.5}>{popularity}</Typography>
+                    <Typography fontFamily='Nunito' color='grey' ml={2} mb={3}>Rating: </Typography>
+                    
+                    <Typography fontFamily='Nunito' color={ratingColor} ml={0.5}>{rating}%</Typography>
                 </Box>
             </Container>
         </Grid>  
