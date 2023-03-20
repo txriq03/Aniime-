@@ -61,11 +61,11 @@ function Home() {
     return truncated + "..."
   }
 
-  const checkLastElement= (array, element) => {
-    if (array.lastIndexOf(element) != 2) {
-      return '•'
+  const chooseTitle= (english, romaji) => {
+    if (english != null) {
+      return english
     } else {
-      return null
+      return romaji
     }
   }
 
@@ -100,7 +100,7 @@ function Home() {
                   <Card sx={{mx: 1, mt: 1, mb: 5}} onClick={() => {
                     setLastScroll(window.scrollHeight); 
                     setAnimeWindowUrl(anime.cover); 
-                    setAnimeTitle(anime.title.romaji); 
+                    setAnimeTitle(chooseTitle(anime.title.english, anime.title.romaji)); 
                     setNativeTitle(anime.title.native); 
                     setAnimeDescription(anime.description);
                     setAnimeId(anime.id); 
@@ -126,7 +126,7 @@ function Home() {
                           </Typography>}
                         </Paper>
                         <Box  sx={{position: 'absolute', display: 'block', zIndex: 2, width: '100%', mx: 1, height: '15%', bottom: 20, textOverflow: 'elipsis'}}>
-                          <Typography noWrap display='inline' fontFamily='Nunito' align='center' sx={{ textOverflow: 'elispsis', left: '5%', zIndex: 1, whiteSpace: 'hidden'}}>{anime.title.romaji}</Typography>
+                          <Typography noWrap display='inline' fontFamily='Nunito' align='center' sx={{ textOverflow: 'elispsis', left: '5%', zIndex: 1, whiteSpace: 'hidden'}}>{chooseTitle(anime.title.english, anime.title.romaji)}</Typography>
                         </Box>
 
                         <Box display='flex' mx={1} sx={{position: 'absolute', bottom: 5}}>
