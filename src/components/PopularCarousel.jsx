@@ -74,7 +74,7 @@ function PopularCarousel({ isOpen, setOpen, animeWindowUrl, setAnimeWindowUrl, a
                         sx={{mx: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
                         style={{ pointerEvents: `${pointerEvent}` }}
                         />
-                        <Typography align='center' sx={{overflow: 'hidden', ml: 1, mb: 5, color: 'grey'}}>{truncate(anime.title.romaji)}</Typography>
+                        <Typography align='center' sx={{overflow: 'hidden', mx: 0.5, mb: 5, color: 'grey'}}>{truncate(anime.title.romaji)}</Typography>
                         </a>
                     </motion.div>
                     ))}              

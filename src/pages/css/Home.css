@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Sulphur+Point&display=swap');
 
 :root {
     background-color: #0E0E0E;
@@ -186,4 +187,19 @@
 
 .BackdropGrid::-webkit-scrollbar {
     display: none;
+}
+
+/*Styles for each card in trending carousel*/
+.card-box {
+    background: linear-gradient(to top, #1E1E1E 20%, rgba(0, 0, 0, 0.667) 30%, rgba(0,0,0,0) 50%);
+}
+.card-image {
+    background: linear-gradient(to top, rgba(0,0,0,0)  black);
+    border-radius: 2;
+    box-shadow: 3;
+    height: 280px;
+    width: 176px;
+    object-fit: cover;
+    cursor: pointer;
+
 }

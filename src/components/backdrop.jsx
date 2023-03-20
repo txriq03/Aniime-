@@ -58,9 +58,9 @@ function AnimeWindow(props) {
       }
 
     const changeRatingColor = () => {
-        if (rating < 40) {
+        if (rating <= 40) {
             setRatingColor('red')
-        } else if (rating > 70) {
+        } else if (rating >= 70) {
             setRatingColor('lightgreen')
         } else {
             setRatingColor('orange')
@@ -93,28 +93,32 @@ function AnimeWindow(props) {
                 <div dangerouslySetInnerHTML={{__html: props.description}} style={{marginLeft: 18, marginTop: 5, fontFamily: 'Nunito'}}/>
 
                 <Typography variant='h5' mx={2} mt={1}>Episodes</Typography>
-                {episodeList.map(episode => {
-                    return (
-                        <Box display='flex' flexDirection='row' key={episode.id} onClick={() => {navigate({pathname: `/watch/${episode.id}`})}}>
-                            <Box
-                            ref={thumbnail}
-                            display='flex'
-                            flexDirection='column'
-                            component="img"
-                            src={"http://localhost:8080/" + episode.image}
-                            height='15vw'
-                            maxHeight='100px'
-                            my={2}
-                            ml={2}
-                            borderRadius={1}
-                            /> 
-                            <Box>
-                                <Typography my={2} mx={2} noWrap textOverflow='hidden'>{episode.number}. {episode.title}</Typography>
-                                <Typography fontSize={14} my={-1} mx={2} fontFamily='Nunito'>{truncate(episode.description)}</Typography>
+
+                {episodeList ? 
+                <Box>
+                    {episodeList.map(episode => {
+                        return (
+                            <Box display='flex' flexDirection='row' key={episode.id} sx={{cursor: 'pointer'}} onClick={() => {navigate({pathname: `/watch/${episode.id}`})}}>
+                                <Box
+                                ref={thumbnail}
+                                display='flex'
+                                flexDirection='column'
+                                component="img"
+                                src={"http://localhost:8080/" + episode.image}
+                                height='15vw'
+                                maxHeight='100px'
+                                my={2}
+                                ml={2}
+                                borderRadius={1}
+                                /> 
+                                <Box>
+                                    <Typography my={2} mx={2} noWrap textOverflow='hidden'>{episode.number}. {episode.title}</Typography>
+                                    <Typography fontSize={14} my={-1} mx={2} fontFamily='Nunito'>{truncate(episode.description)}</Typography>
+                                </Box>
                             </Box>
-                        </Box>
-                    )
+                        )
                     })}
+                </Box> : <div>Loading...</div>}
 
                 <Box align='center' bgcolor='#bd284d' my={2} height={2} width={750}/>
                 <Typography variant='h4' fontFamily='Nunito' mx={2} mt={5}>About</Typography>

@@ -1,10 +1,10 @@
-import { Box, Typography, Card, Backdrop, Grid, Paper, Skeleton, ClickAwayListener} from '@mui/material';
+import { Box, Typography, Card, CardMedia, CardHeader, Backdrop, Grid, Paper, Skeleton, ClickAwayListener} from '@mui/material';
 import { useEffect, useState, useRef } from 'react';
 import './css/Home.css';
 import axios from "axios";
 import Navbar from './Navbar'
 import { ANIME } from '@consumet/extensions';
-import { Update } from '@mui/icons-material';
+import { Theaters } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
 import { motion } from "framer-motion";
 import AnimeWindow from '../components/backdrop'
@@ -61,6 +61,14 @@ function Home() {
     return truncated + "..."
   }
 
+  const checkLastElement= (array, element) => {
+    if (array.lastIndexOf(element) != 2) {
+      return '•'
+    } else {
+      return null
+    }
+  }
+
   return (
     <>
       <Navbar/>
@@ -83,32 +91,54 @@ function Home() {
 
         {/* Trending Carousel */}
         <Box sx={{maxWidth: '90%', margin: 'auto'}}>
-          <Box display='flex'>
-            <Update style={{fontSize: '40'}} sx={{mt: 2.5, mr: 1}}/>
-            <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}>Trending</Typography>
-          </Box>
+          <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2, ml:1}}>Trending</Typography>
+          <Box sx={{ml: 1, mt: 0.5, mb: 1, bgcolor: '#B2003F', height: 7, width: 180, borderRadius: 2}}/>
           <motion.div ref={carousel} className="carousel">
             <motion.div drag="x" onMouseMove={() => {setPointerEvent('none')}} onMouseUp={() => {setPointerEvent('auto')}} dragConstraints={{right: 0, left: -width}} className="inner-carousel">
               {trending.map(anime => (
                 <motion.div className='items' key={anime.id}>
-                  <a target='_blank' onClick={() => {
-                      setLastScroll(window.scrollHeight); 
-                      setAnimeWindowUrl(anime.cover); 
-                      setAnimeTitle(anime.title.romaji); 
-                      setNativeTitle(anime.title.native); 
-                      setAnimeDescription(anime.description);
-                      setAnimeId(anime.id); 
-                      setIsBackdropOpen(true) 
-                    }}>
-                    <Box
-                    className="anime-card"
-                    component="img"
-                    src={anime.image}
-                    sx={{mx: 1, mt: 2, borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
-                    style={{ pointerEvents: `${pointerEvent}` }}
-                    />
-                    <Typography align='center' sx={{overflow: 'hidden', ml: 1, mb: 5, color: 'grey'}}>{truncate(anime.title.romaji)}</Typography>
-                  </a>
+                  <Card sx={{mx: 1, mt: 1, mb: 5}} onClick={() => {
+                    setLastScroll(window.scrollHeight); 
+                    setAnimeWindowUrl(anime.cover); 
+                    setAnimeTitle(anime.title.romaji); 
+                    setNativeTitle(anime.title.native); 
+                    setAnimeDescription(anime.description);
+                    setAnimeId(anime.id); 
+                    setIsBackdropOpen(true)
+                  }}>
+                    <div style={{position: 'relative', overflow: 'hidden', textOverflow: 'elipsis'}}>
+                      
+                        <CardMedia className='card-image' component='img' image={anime.image} sx={{ borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer',}}/>
+                        {/* <Box
+                        component="img"
+                        src={anime.image}
+                        sx={{ borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
+                        style={{ pointerEvents: `${pointerEvent}`}}
+                        /> */}
+                        <Box className='card-box' position='absolute'  height='100%' width='100%' sx={{bottom: 0}}/>
+                        <Paper sx={{position: 'absolute', bottom: 70, right: 5, width: 60, height: 20, bgcolor: '#B2003F'}}>
+                          {anime.totalEpisodes ? 
+                          <Typography fontFamily='Nunito' fontSize='0.8rem' align='center'> 
+                            {/* <Theaters style={{fontSize: '0.8rem'}}/>*/} Ep {anime.totalEpisodes} 
+                          </Typography> :
+                          <Typography fontFamily='Nunito' fontSize='0.8rem' align='center'>
+                            ???
+                          </Typography>}
+                        </Paper>
+                        <Box  sx={{position: 'absolute', display: 'block', zIndex: 2, width: '100%', mx: 1, height: '15%', bottom: 20, textOverflow: 'elipsis'}}>
+                          <Typography noWrap display='inline' fontFamily='Nunito' align='center' sx={{ textOverflow: 'elispsis', left: '5%', zIndex: 1, whiteSpace: 'hidden'}}>{anime.title.romaji}</Typography>
+                        </Box>
+
+                        <Box display='flex' mx={1} sx={{position: 'absolute', bottom: 5}}>
+                        <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.type}</Typography>
+                        <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>•</Typography>
+                        <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.genres[0]}</Typography>
+                        <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>•</Typography>
+                        <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.duration}m</Typography>
+                        </Box>
+                    </div>
+
+                  </Card>
                 </motion.div>
               ))}              
             </motion.div>
@@ -116,7 +146,7 @@ function Home() {
           <PopularCarousel isOpen={isBackdropOpen} setOpen={setIsBackdropOpen} animeWindowUrl={animeWindowUrl} setAnimeWindowUrl={setAnimeWindowUrl} animeTitle={animeTitle} setAnimeTitle={setAnimeTitle} nativeTitle={nativeTitle} setNativeTitle={setNativeTitle} animeDescription={animeDescription} setAnimeDescription={setAnimeDescription} animeId={animeId} setAnimeId={setAnimeId}/>
 
         </Box>
-        <Backdrop open={isBackdropOpen}>
+        <Backdrop open={isBackdropOpen} style={{zIndex: 2}}>
           {isBackdropOpen && <ClickAwayListener onClickAway={() => {setIsBackdropOpen(false); window.scrollBy(0, lastScroll)}}>
             <div>
               <AnimeWindow 
