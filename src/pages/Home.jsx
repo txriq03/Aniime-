@@ -69,6 +69,16 @@ function Home() {
     }
   }
 
+  const changeRatingColor = (rating) => {
+    if (rating < 40) {
+        return 'red'
+    } else if (rating >= 70) {
+      return 'lightgreen'
+    } else {
+        return 'orange'
+    }
+  }
+
   return (
     <>
       <Navbar/>
@@ -134,7 +144,7 @@ function Home() {
                         <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>•</Typography>
                         <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.genres[0]}</Typography>
                         <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>•</Typography>
-                        <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.duration}m</Typography>
+                        <Typography noWrap color={changeRatingColor(anime.rating)} fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.rating}%</Typography>
                         </Box>
                     </div>
 
