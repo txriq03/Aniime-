@@ -8,7 +8,7 @@ import { Theaters } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
 import { motion } from "framer-motion";
 import AnimeWindow from '../components/backdrop'
-import PopularCarousel from '../components/PopularCarousel';
+import PopularCarousel from '../components/RecentlyUpdated';
 
 
 function Home() {
@@ -126,7 +126,7 @@ function Home() {
                         style={{ pointerEvents: `${pointerEvent}`}}
                         /> */}
                         <Box className='card-box' position='absolute'  height='100%' width='100%' sx={{bottom: 0}}/>
-                        <Paper sx={{position: 'absolute', bottom: 70, right: 5, width: 60, height: 20, bgcolor: '#B2003F'}}>
+                        <Paper sx={{position: 'absolute', bottom: 70, right: 5, width: '3.5rem', height: '1.3rem', bgcolor: '#a1023a'}}>
                           {anime.totalEpisodes ? 
                           <Typography fontFamily='Nunito' fontSize='0.8rem' align='center'> 
                             {/* <Theaters style={{fontSize: '0.8rem'}}/>*/} Ep {anime.totalEpisodes} 
@@ -135,9 +135,13 @@ function Home() {
                             ???
                           </Typography>}
                         </Paper>
-                        <Box  sx={{position: 'absolute', display: 'block', zIndex: 2, width: '100%', mx: 1, height: '15%', bottom: 20, textOverflow: 'elipsis'}}>
-                          <Typography noWrap display='inline' fontFamily='Nunito' align='center' sx={{ textOverflow: 'elispsis', left: '5%', zIndex: 1, whiteSpace: 'hidden'}}>{chooseTitle(anime.title.english, anime.title.romaji)}</Typography>
+                        <Box sx={{ position: 'absolute',  zIndex: 2, width: '100%', mx: 1, height: '12%', bottom: 25, textOverflow: 'elipsis', overflow: 'hidden'}}>
+                          <Typography  style={{lineHeight: 1}}  fontFamily='Nunito'   sx={{ textOverflow: 'elispsis', left: '5%', zIndex: 1, overflow: 'hidden'}}>{chooseTitle(anime.title.english, anime.title.romaji)}</Typography>
                         </Box>
+                        <Paper sx={{bgcolor: 'whitesmoke', position: 'absolute', bottom: 70, left: 5, width: '3rem', height: '1.3rem'}}>
+                            <Typography color='#a1023a' fontSize='0.8rem' align='center' sx={{fontWeight: 10000}}>{anime.releaseDate}</Typography>
+                        </Paper>       
+
 
                         <Box display='flex' mx={1} sx={{position: 'absolute', bottom: 5}}>
                         <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.type}</Typography>
