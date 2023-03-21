@@ -5,10 +5,12 @@ import axios from "axios";
 import Navbar from './Navbar'
 import { ANIME } from '@consumet/extensions';
 import { Theaters } from '@mui/icons-material';
-import Carousel from 'react-material-ui-carousel';
+// import Carousel from 'react-material-ui-carousel';
 import { motion } from "framer-motion";
 import AnimeWindow from '../components/backdrop'
 import PopularCarousel from '../components/RecentlyUpdated';
+import { Carousel } from '@mantine/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 
 function Home() {
@@ -24,6 +26,7 @@ function Home() {
   const [ pointerEvent, setPointerEvent ] = useState('auto');
   const [ lastScroll, setLastScroll ] = useState(0);
   const carousel = useRef();
+  const autoplay = useRef(Autoplay({ delay: 5000 }));
 
   const handleWindowResize = () => {
     setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
@@ -61,6 +64,7 @@ function Home() {
     return truncated + "..."
   }
 
+  //Choose Romaji title if English title doesn't exist
   const chooseTitle= (english, romaji) => {
     if (english != null) {
       return english
@@ -69,6 +73,7 @@ function Home() {
     }
   }
 
+  //Decides color of rating metadata
   const changeRatingColor = (rating) => {
     if (rating < 40) {
         return 'red'
@@ -84,20 +89,18 @@ function Home() {
       <Navbar/>
       {/* Banner carousel */}
       <Grid justifyContent='center' >
-        {(cover && isBackdropOpen==false) ?
-        <Carousel duration='1000' autoPlay interval={10000} stopAutoPlayOnHover={false} swipe animation='slide' sx={{mx: 10, mt: 1}}>
-          {cover.map(anime => (
-            <a key={anime.id} target='_blank'>
+        <Carousel mx='auto' loop  plugins={[autoplay.current]} withIndicators height={500} draggable align='center' style={{ position: 'relative'}}>
+          {cover.map(anime=> (
+            <Carousel.Slide>
               <Box
               className="carousel-cover"
-              component="img"
+              component='img'
               src={anime.cover}
-              sx={{ borderRadius: 2, objectFit: 'cover', height: '400px', width: '100%', m: 'auto',}}
-              />
-            </a>
+              sx={{objectFit: 'cover', height: '100%', width: '100%'}}
+              />              
+            </Carousel.Slide>
           ))}
         </Carousel>
-        : <Paper sx={{height: '440px', width: '90%', mx: 'auto', mt: 1, borderRadius: 3, boxShadow: 5, borderColor: '#720026'}} />}
 
         {/* Trending Carousel */}
         <Box sx={{maxWidth: '90%', margin: 'auto'}}>
@@ -135,10 +138,10 @@ function Home() {
                             ???
                           </Typography>}
                         </Paper>
-                        <Box sx={{ position: 'absolute',  zIndex: 2, width: '100%', mx: 1, height: '12%', bottom: 25, textOverflow: 'elipsis', overflow: 'hidden'}}>
-                          <Typography  style={{lineHeight: 1}}  fontFamily='Nunito'   sx={{ textOverflow: 'elispsis', left: '5%', zIndex: 1, overflow: 'hidden'}}>{chooseTitle(anime.title.english, anime.title.romaji)}</Typography>
+                        <Box sx={{ position: 'absolute',  zIndex: 2, width: '90%', height: '11.5%', mx: 1, bottom: 25, textOverflow: 'ellipsis'}}>
+                          <Typography className='card-title'   fontFamily='Nunito' >{chooseTitle(anime.title.english, anime.title.romaji)}</Typography>
                         </Box>
-                        <Paper sx={{bgcolor: 'whitesmoke', position: 'absolute', bottom: 70, left: 5, width: '3rem', height: '1.3rem'}}>
+                        <Paper sx={{bgcolor: '#0E0E0E', position: 'absolute', bottom: 70, left: 5, width: '3rem', height: '1.3rem'}}>
                             <Typography color='#a1023a' fontSize='0.8rem' align='center' sx={{fontWeight: 10000}}>{anime.releaseDate}</Typography>
                         </Paper>       
 

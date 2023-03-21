@@ -201,5 +201,15 @@
     width: 176px;
     object-fit: cover;
     cursor: pointer;
-
+}
+.card-title {
+    line-height: 1;
+    -webkit-line-clamp: 2;
+    max-lines: 2;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    left: 5%;
+    z-index: 1;
+    text-overflow: ellipsis;
 }
