@@ -19,17 +19,8 @@ function AnimeWindow(props) {
     const [ firstEpisodeId, setFirstEpisodeId ] = useState('');
     const [ cover, setCover ] = useState('');
     const [ isLoading, setLoading ] = useState();
+    const [ showMore, setShowMore ] = useState(false);
     const thumbnail = useRef();
-
-    const truncate = (str, maxLength = 230 ) => {
-        try {
-            if (str.length <= maxLength) return str;
-            const truncated = str.substring(0, maxLength-3);
-            return truncated + "..."
-        } catch(err) {
-            return str
-        }
-      }
 
     const getEpisodes = async () => {
         const url = `https://api.consumet.org/meta/anilist/info/${props.animeId}`;
@@ -70,11 +61,11 @@ function AnimeWindow(props) {
     useEffect(() => {
         setLoading(true),
         getEpisodes()
-
     }, [])
     useEffect(() => {
         changeRatingColor()
     }, [ rating ])
+
     return (
         <Grid className="BackdropGrid" justifyContent='center' sx={{ width: '800px', height: '98vh', bgcolor: '#0E0E0E', borderRadius: 2, boxShadow: 10, overflowY: 'auto', overflowX: 'hidden'}} >
             {cover ? <Box src={cover} sx={{width: "100%", height: '33%', borderRadius: 2, objectFit: 'cover'}} component="img"/> 
@@ -90,7 +81,16 @@ function AnimeWindow(props) {
                         <Button variant='outlined' size='large' sx={{my: 1, ml: 1}}><Info sx={{mr: 0.5}}/>Watch trailer</Button>
                     </a>
                 </Box>
-                <div dangerouslySetInnerHTML={{__html: props.description}} style={{marginLeft: 18, marginTop: 5, fontFamily: 'Nunito'}}/>
+                <div dangerouslySetInnerHTML={{__html: props.description}} style={{
+                    marginLeft: 18, 
+                    marginTop: 5, 
+                    fontFamily: 'Nunito',
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    WebkitLineClamp: showMore ? 100 : 6,
+                    overflow: 'hidden'}}/>
+                {}
+                <Button variant='text' style={{marginLeft: 18}} onClick={() => setShowMore(!showMore)}>Show {!showMore ? 'More': 'Less'}</Button>
 
                 <Typography variant='h5' mx={2} mt={1}>Episodes</Typography>
 
@@ -113,7 +113,7 @@ function AnimeWindow(props) {
                                 /> 
                                 <Box>
                                     <Typography my={2} mx={2} noWrap textOverflow='hidden'>{episode.number}. {episode.title}</Typography>
-                                    <Typography fontSize={14} my={-1} mx={2} fontFamily='Nunito'>{truncate(episode.description)}</Typography>
+                                    <Typography fontSize={14} my={-1} mx={2} fontFamily='Nunito' style={{display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 3, overflow: 'hidden'}}>{episode.description}</Typography>
                                 </Box>
                             </Box>
                         )

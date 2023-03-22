@@ -89,15 +89,19 @@ function Home() {
       <Navbar/>
       {/* Banner carousel */}
       <Grid justifyContent='center' >
-        <Carousel mx='auto' loop  plugins={[autoplay.current]} withIndicators height={500} draggable align='center' style={{ position: 'relative'}}>
+        <Carousel mx='auto' maw='88vw' loop plugins={[autoplay.current]} withIndicators height='25vw' draggable align='center' style={{ position: 'relative' }}>
           {cover.map(anime=> (
             <Carousel.Slide>
               <Box
               className="carousel-cover"
               component='img'
               src={anime.cover}
-              sx={{objectFit: 'cover', height: '100%', width: '100%'}}
-              />              
+              sx={{objectFit: 'cover', height: '100%', width: '100%', borderRadius: 3}}
+              />
+              <Box width='30%' sx={{display: 'block', position: 'absolute', top: '15%', left: '10%'}}>
+                {/* <Typography className='cover-title' variant='h3' fontFamily='Nunito' fontWeight='bold' >{chooseTitle(anime.title.english, anime.title.romaji)}</Typography>
+                <Typography variant='h6' fontFamily='Nunito' >{anime.description}</Typography> */}
+              </Box>
             </Carousel.Slide>
           ))}
         </Carousel>
@@ -119,17 +123,10 @@ function Home() {
                     setAnimeId(anime.id); 
                     setIsBackdropOpen(true)
                   }}>
-                    <div style={{position: 'relative', overflow: 'hidden', textOverflow: 'elipsis'}}>
-                      
+                    <div style={{position: 'relative'}}>
                         <CardMedia className='card-image' component='img' image={anime.image} sx={{ borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer',}}/>
-                        {/* <Box
-                        component="img"
-                        src={anime.image}
-                        sx={{ borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer'}}
-                        style={{ pointerEvents: `${pointerEvent}`}}
-                        /> */}
                         <Box className='card-box' position='absolute'  height='100%' width='100%' sx={{bottom: 0}}/>
-                        <Paper sx={{position: 'absolute', bottom: 70, right: 5, width: '3.5rem', height: '1.3rem', bgcolor: '#a1023a'}}>
+                        <Paper sx={{position: 'absolute', bottom: 70, right: 5, width: '3.5rem', height: '1.3rem', bgcolor: '#BD284D'}}>
                           {anime.totalEpisodes ? 
                           <Typography fontFamily='Nunito' fontSize='0.8rem' align='center'> 
                             {/* <Theaters style={{fontSize: '0.8rem'}}/>*/} Ep {anime.totalEpisodes} 
@@ -138,20 +135,26 @@ function Home() {
                             ???
                           </Typography>}
                         </Paper>
-                        <Box sx={{ position: 'absolute',  zIndex: 2, width: '90%', height: '11.5%', mx: 1, bottom: 25, textOverflow: 'ellipsis'}}>
-                          <Typography className='card-title'   fontFamily='Nunito' >{chooseTitle(anime.title.english, anime.title.romaji)}</Typography>
+                        <Box sx={{ position: 'absolute',  zIndex: 2, width: '90%', mx: 1, top: '80%', textOverflow: 'ellipsis'}}>
+                          <Typography fontFamily='Nunito' style={{
+                            display: '-webkit-box', 
+                            WebkitBoxOrient: 'vertical', 
+                            overflow: 'hidden',
+                            lineHeight: 1.1,   
+                            WebkitLineClamp: 2}}>{chooseTitle(anime.title.english, anime.title.romaji)}
+                          </Typography>
                         </Box>
                         <Paper sx={{bgcolor: '#0E0E0E', position: 'absolute', bottom: 70, left: 5, width: '3rem', height: '1.3rem'}}>
-                            <Typography color='#a1023a' fontSize='0.8rem' align='center' sx={{fontWeight: 10000}}>{anime.releaseDate}</Typography>
+                            <Typography color='#BD284D' fontSize='0.8rem' align='center' >{anime.releaseDate}</Typography>
                         </Paper>       
 
 
                         <Box display='flex' mx={1} sx={{position: 'absolute', bottom: 5}}>
-                        <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.type}</Typography>
-                        <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>•</Typography>
-                        <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.genres[0]}</Typography>
-                        <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>•</Typography>
-                        <Typography noWrap color={changeRatingColor(anime.rating)} fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.rating}%</Typography>
+                          <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.type}</Typography>
+                          <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>•</Typography>
+                          <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.genres[0]}</Typography>
+                          <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>•</Typography>
+                          <Typography noWrap color={changeRatingColor(anime.rating)} fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.rating}%</Typography>
                         </Box>
                     </div>
 
