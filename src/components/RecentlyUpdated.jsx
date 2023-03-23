@@ -68,13 +68,13 @@ function PopularCarousel({ isOpen, setOpen, animeWindowUrl, setAnimeWindowUrl, a
 
     return (
         <>
-            <Typography variant='h3' fontSize='2.5rem' color='white' ml={1} >Recently Updated</Typography>
-            <Box sx={{ml: 1, mt: 0.5, mb: 1, bgcolor: '#B2003F', height: 7, width: 320, borderRadius: 2}}/>
+            <Typography variant='h3' fontSize='2.5rem' color='white' >Recently Updated</Typography>
+            <Box sx={{ mt: 0.5, mb: 1, bgcolor: '#B2003F', height: 7, width: 320, borderRadius: 2}}/>
             <motion.div ref={carousel} className="carousel">
                 <motion.div drag="x" onMouseMove={() => {setPointerEvent('none')}} onMouseUp={() => {setPointerEvent('auto')}} dragConstraints={{right: 0, left: -width}} className="inner-carousel">
                     {popular.map(anime => (
                     <motion.div className='items' key={anime.id}>
-                      <Card sx={{mx: 1, mt: 1, mb: 5}} onClick={() => {
+                      <Card sx={{mr: 2, mt: 1, mb: 5}} onClick={() => {
                         setLastScroll(window.scrollHeight); 
                         setAnimeWindowUrl(anime.cover); 
                         setAnimeTitle(chooseTitle(anime.title.english, anime.title.romaji)); 
@@ -83,7 +83,7 @@ function PopularCarousel({ isOpen, setOpen, animeWindowUrl, setAnimeWindowUrl, a
                         setAnimeId(anime.id); 
                         setOpen(true)
                       }}>
-                    <div style={{position: 'relative', overflow: 'hidden', textOverflow: 'elipsis'}}>
+                    <Box style={{position: 'relative'}}>
                       
                       <CardMedia className='card-image' component='img' image={anime.image} sx={{ borderRadius: 2, boxShadow: 5, height: '280px', width: '176px', objectFit: 'cover', cursor: 'pointer',}}/>
                       {/* <Box
@@ -93,7 +93,7 @@ function PopularCarousel({ isOpen, setOpen, animeWindowUrl, setAnimeWindowUrl, a
                       style={{ pointerEvents: `${pointerEvent}`}}
                       /> */}
                       <Box className='card-box' position='absolute'  height='100%' width='100%' sx={{bottom: 0}}/>
-                      <Paper sx={{position: 'absolute', bottom: 70, right: 5, width: '3.5rem', height: '1.3rem', bgcolor: '#a1023a'}}>
+                      <Paper sx={{position: 'absolute', bottom: 70, right: 5, width: '3.5rem', height: '1.3rem', bgcolor: '#BD284D'}}>
                         {anime.episodeNumber ? 
                         <Typography fontFamily='Nunito' fontSize='0.8rem' align='center'> 
                           {/* <Theaters style={{fontSize: '0.8rem'}}/>*/} Ep {anime.episodeNumber} 
@@ -102,11 +102,11 @@ function PopularCarousel({ isOpen, setOpen, animeWindowUrl, setAnimeWindowUrl, a
                           ???
                         </Typography>}
                       </Paper>
-                      <Box sx={{ position: 'absolute',  zIndex: 2, width: '100%', mx: 1, height: '12%', bottom: 25, textOverflow: 'elipsis', overflow: 'hidden'}}>
-                        <Typography  style={{lineHeight: 1}}  fontFamily='Nunito'   sx={{ textOverflow: 'elispsis', left: '5%', zIndex: 1, overflow: 'hidden'}}>{chooseTitle(anime.title.english, anime.title.romaji)}</Typography>
+                      <Box sx={{ position: 'absolute',  zIndex: 2, width: '90%', mx: 1, height: '15%', top: '80%', textOverflow: 'elipsis', overflow: 'hidden'}}>
+                        <Typography  style={{lineHeight: 1, textOverflow: 'ellipsis', left: '5%', zIndex: 1, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 2}}  fontFamily='Nunito'>{chooseTitle(anime.title.english, anime.title.romaji)}</Typography>
                       </Box>
                       <Paper sx={{bgcolor: 'whitesmoke', position: 'absolute', bottom: 70, left: 5, width: '3rem', height: '1.3rem'}}>
-                          <Typography color='#a1023a' fontSize='0.8rem' align='center' sx={{fontWeight: 10000}}>{anime.releaseDate}</Typography>
+                          <Typography color='#BD284D' fontSize='0.8rem' align='center' sx={{fontWeight: 10000}}>NEW</Typography>
                       </Paper>       
 
 
@@ -117,7 +117,7 @@ function PopularCarousel({ isOpen, setOpen, animeWindowUrl, setAnimeWindowUrl, a
                       <Typography noWrap fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>•</Typography>
                       <Typography noWrap color={changeRatingColor(anime.rating)} fontSize='0.7rem' fontFamily='Nunito' mx={0.5}>{anime.rating}%</Typography>
                       </Box>
-                    </div>
+                    </Box>
 
                   </Card>
                     </motion.div>

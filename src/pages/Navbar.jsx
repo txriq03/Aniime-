@@ -129,7 +129,7 @@ function Navbar() {
               <IconButton sx={{mr: 1}} href='https://discord.com/invite/qTPfvMxzNH'>
                 <FaDiscord size='1.2em' color='#5562EA' />
               </IconButton>
-              <Button variant='contained' size='medium' endIcon={<KeyboardDoubleArrowRight/>} sx={{mr: 10}} >Sign in</Button>
+              <Button variant='contained' size='medium' endIcon={<KeyboardDoubleArrowRight/>} sx={{mr: 10, whiteSpace: 'nowrap', minWidth: 80}} >Sign in</Button>
             </Toolbar>
           </AppBar>
           {searchResults != '' && <Typography variant='h3' align='center' color="primary" sx={{m: 2}}>Results</Typography>}

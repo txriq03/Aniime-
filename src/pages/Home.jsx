@@ -1,10 +1,9 @@
-import { Box, Typography, Card, CardMedia, CardHeader, Backdrop, Grid, Paper, Skeleton, ClickAwayListener} from '@mui/material';
+import { Box, Typography, Card, CardMedia, CardHeader, Backdrop, Grid, Paper, Skeleton, Button, ClickAwayListener} from '@mui/material';
 import { useEffect, useState, useRef } from 'react';
 import './css/Home.css';
 import axios from "axios";
-import Navbar from './Navbar'
-import { ANIME } from '@consumet/extensions';
-import { Theaters } from '@mui/icons-material';
+import Navbar from './Navbar';
+import { Info, PlayArrow, PlayArrowRounded} from '@mui/icons-material';
 // import Carousel from 'react-material-ui-carousel';
 import { motion } from "framer-motion";
 import AnimeWindow from '../components/backdrop'
@@ -57,13 +56,6 @@ function Home() {
       //window.addEventListener('resize', handleWindowResize)
     }, [])
 
-  //Shorten anime titles
-  const truncate = (str, maxLength = 30 ) => {
-    if (str.length <= maxLength) return str;
-    const truncated = str.substring(0, maxLength-3);
-    return truncated + "..."
-  }
-
   //Choose Romaji title if English title doesn't exist
   const chooseTitle= (english, romaji) => {
     if (english != null) {
@@ -89,18 +81,22 @@ function Home() {
       <Navbar/>
       {/* Banner carousel */}
       <Grid justifyContent='center' >
-        <Carousel mx='auto' maw='88vw' loop plugins={[autoplay.current]} withIndicators height='25vw' draggable align='center' style={{ position: 'relative' }}>
+        <Carousel mx='auto' maw='89vw' loop plugins={[autoplay.current]} withIndicators height='25vw' draggable align='center' style={{ position: 'relative', marginTop: 10, background: 'linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,0)'}}>
           {cover.map(anime=> (
             <Carousel.Slide>
               <Box
               className="carousel-cover"
               component='img'
               src={anime.cover}
-              sx={{objectFit: 'cover', height: '100%', width: '100%', borderRadius: 3}}
+              sx={{objectFit: 'cover', height: '100%', width: '100%', borderRadius: 3, filter: 'brightness(50%) blur(5px)'}}
               />
-              <Box width='30%' sx={{display: 'block', position: 'absolute', top: '15%', left: '10%'}}>
-                {/* <Typography className='cover-title' variant='h3' fontFamily='Nunito' fontWeight='bold' >{chooseTitle(anime.title.english, anime.title.romaji)}</Typography>
-                <Typography variant='h6' fontFamily='Nunito' >{anime.description}</Typography> */}
+              <Box width='35%' sx={{display: 'block', position: 'absolute', bottom: '60%', left: '10%'}}>
+                <Typography className='cover-title' variant='h2' fontSize='3vw' fontFamily='Nunito' fontWeight='bold' sx={{display:'-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 2, overflow: 'hidden'}} >{chooseTitle(anime.title.english, anime.title.romaji)}</Typography>
+              </Box>
+              <Box width='35%' sx={{display: 'block', position: 'absolute', top: '40%', left: '10%'}}>
+                <Typography variant='h6' fontSize='1.1vw' fontFamily='Nunito' sx={{display:'-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 3, overflow: 'hidden'}}>{anime.description}</Typography>
+                <Button variant='contained' size='large' onClick={() => setIsBackdropOpen(true)} style={{height: '2.5vw', width: '10vw', fontSize: '1.2vw', whiteSpace: 'nowrap'}} sx={{borderRadius: 2, mt: 2}}><PlayArrowRounded size='large' sx={{ml:-1}}/> Play Now</Button>
+                <Button variant='contained' color='secondary' size='large' style={{height: '2.5vw', width: '11vw', fontSize: '1.2vw', whiteSpace: 'nowrap'}} sx={{borderRadius: 2, mt: 2, ml: 2}}><Info size='small' sx={{mr: 0.5}}/> View Details</Button>
               </Box>
             </Carousel.Slide>
           ))}
@@ -108,13 +104,13 @@ function Home() {
 
         {/* Trending Carousel */}
         <Box sx={{maxWidth: '90%', margin: 'auto'}}>
-          <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2, ml:1}}>Trending</Typography>
-          <Box sx={{ml: 1, mt: 0.5, mb: 1, bgcolor: '#B2003F', height: 7, width: 180, borderRadius: 2}}/>
+          <Typography variant='h3' fontSize='2.5rem' color='white' sx={{mt: 2}}>Trending</Typography>
+          <Box sx={{ mt: 0.5, mb: 1, bgcolor: '#B2003F', height: 7, width: 180, borderRadius: 2}}/>
           <motion.div ref={carousel} className="carousel">
             <motion.div drag="x" onMouseMove={() => {setPointerEvent('none')}} onMouseUp={() => {setPointerEvent('auto')}} dragConstraints={{right: 0, left: -width}} className="inner-carousel">
               {trending.map(anime => (
                 <motion.div className='items' key={anime.id}>
-                  <Card sx={{mx: 1, mt: 1, mb: 5}} onClick={() => {
+                  <Card sx={{mr: 2, mt: 1, mb: 5}} onClick={() => {
                     setLastScroll(window.scrollHeight); 
                     setAnimeWindowUrl(anime.cover); 
                     setAnimeTitle(chooseTitle(anime.title.english, anime.title.romaji)); 
