@@ -125,7 +125,7 @@ function Navbar() {
                 }}
               />
               <Typography>by txriq03</Typography>
-              <OutlinedInput sx={{ m: 'auto', width: '30%', bgcolor: '#141414', textAlign: 'center'}} size='small' onChange={(e) => setQuery(e.target.value)} startAdornment={<IconButton sx={{ml: -0.5}} onClick={searchQuery} > <Search/> </IconButton>} placeholder='Search...' >Search...</OutlinedInput>
+              <OutlinedInput sx={{ m: 'auto', width: '30%', bgcolor: '#0e0e0e', textAlign: 'center', fontFamily: 'Nunito', borderRadius: 2}} size='small' onChange={(e) => setQuery(e.target.value)} startAdornment={<IconButton sx={{ml: -0.5}} onClick={searchQuery} > <Search/> </IconButton>} placeholder='Search...' >Search...</OutlinedInput>
               <IconButton sx={{mr: 1}} href='https://discord.com/invite/qTPfvMxzNH'>
                 <FaDiscord size='1.2em' color='#5562EA' />
               </IconButton>

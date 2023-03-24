@@ -28,7 +28,7 @@ function AnimeWindow(props) {
             const { data } = await axios.get(url);
             console.log(data);
             
-            setEpisodeList(data.episodes.slice(0, 7));
+            setEpisodeList(data.episodes.slice(0, 10));
             
             try {
                 setTrailerUrl(`https://www.youtube.com/watch?v=${data.trailer.id}`)
