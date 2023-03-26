@@ -2,16 +2,12 @@ import { Typography, CssBaseline, Box, Button, IconButton, useMediaQuery, AppBar
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Menu,  KeyboardDoubleArrowRight, Search, Whatshot, Update, CalendarMonth, Interests, Cottage } from '@mui/icons-material';
 import {  FaDiscord } from "react-icons/fa";
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { Helmet } from 'react-helmet';
 import logo from '../assets/aniime.png';
 import './css/Home.css';
 import { styled } from '@mui/system';
-import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
-import axios from "axios";
-
-//streaming link example => https://api.consumet.org/meta/anilist/watch/109893?provider=9anime
-//info url example => "https://api.consumet.org/meta/anilist/info/98659?provider=9anime"
+import {  useNavigate, useLocation, } from 'react-router-dom';
 
 const StyledIconButton = styled(IconButton)`
   &:hover {
