@@ -4,7 +4,7 @@ import { MediaOutlet, MediaPlayer } from '@vidstack/react';
 import { useLocation, useParams} from 'react-router-dom';
 import axios from 'axios';
 
-const corsProxy = "http://localhost:8080/"
+const corsProxy = "https://aniimeproxy.herokuapp.com/"
 
 function Watch() {
   const { id } = useParams();

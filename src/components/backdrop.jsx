@@ -104,7 +104,7 @@ function AnimeWindow(props) {
                                 display='flex'
                                 flexDirection='column'
                                 component="img"
-                                src={"https://aniimeproxy.herokuapp.com/" + episode.image}
+                                src={"http://aniimeproxy.herokuapp.com/" + episode.image}
                                 height='15vw'
                                 maxHeight='100px'
                                 my={2}
